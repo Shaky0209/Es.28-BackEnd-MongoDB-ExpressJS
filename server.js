@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import {config} from 'dotenv';
 import { apiRoute } from './services/routes/api.route.js';
+import { blogPostRoute } from './services/routes/blogPost.route.js';
 import cors from 'cors';
 
 // Inizializza la gestione del file .env
@@ -21,6 +22,8 @@ app.use(express.json());
 
 // Importa routes
 app.use("/api", apiRoute);
+
+app.use("/blog", blogPostRoute);
 
 const initServer = async()=>{
     try{

@@ -22,11 +22,11 @@ const authorSchema = new Schema(
         avatar:{
             type: "String",
             require: false,
-        }
+        },
     
     },
-    
     "author", 
+    
 );
 
 

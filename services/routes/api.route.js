@@ -20,6 +20,7 @@ apiRoute.post("/authors", async (req, res, next) =>{
             surname:req.body.surname,
             email:req.body.email,
             dateOfBirth:req.body.dateOfBirth,
+            avatar:req.body.avatar,
         });
         res.send(author).status(200);
     }catch (err){
@@ -41,21 +42,9 @@ apiRoute.put("/authors/:id", async (req, res, next)=>{
 
 apiRoute.delete("/authors/:id", async (req, res, next) =>{
     try{
-        await Author.deleteOne({
-            _id: req.params.id
-        });
+        await Author.deleteOne({_id: req.params.id});
         res.send(204);
     }catch (err){
         next(err);
     }
 });
-
-
-
-// apiRoute.get("/", async (req, res) => {
-    //     res.send("Sei nella route principale API");
-    // });
-    
-// apiRoute.post("/:name", async (req, res)=>{
-//     res.send(req.params.name);
-// })
