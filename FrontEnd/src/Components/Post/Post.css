@@ -1,0 +1,27 @@
+.card-btn{
+    color: grey;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 0 2px;
+}
+
+.delete-btn{
+    color: black;
+    background-color: rgb(255, 140, 122);
+}
+
+.custom-modal{
+    position: fixed;
+    height: 250px;
+    width: 450px;
+    border: 1px solid rgb(191, 191, 191);
+    border-radius: 5px;
+    background-color: lightblue;
+    top: 30vh;
+    left: 30vw;
+}
+
+.id-style{
+    font-size: 8pt;
+    font-weight: 700;
+}
