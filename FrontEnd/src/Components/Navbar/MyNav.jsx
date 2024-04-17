@@ -20,7 +20,13 @@ export default function MyNav() {
             <Link to="/" className='homeLink'>Home</Link>
             <div className='auth-cont'>
               <div>
-                <button  className='auth-link' type='link' onClick={()=>setAuthMenu(!authMenu)}>Authors <FontAwesomeIcon icon={faCaretDown} /></button>
+                <button 
+                  className='auth-link'
+                  type='link'
+                  onClick={()=>{
+                    setAuthMenu(!authMenu);
+                    setBlogMenu(false);
+                }}>Authors <FontAwesomeIcon icon={faCaretDown} /></button>
               </div>
               <div className= {`auth-menu d-flex flex-column ${authMenu ? "" : "d-none"}`}>
                 <Link to="/api/authors/GET" onClick={()=>setAuthMenu(!authMenu)} className='menu-link'>GET</Link>
@@ -29,7 +35,13 @@ export default function MyNav() {
             </div>
             <div className='auth-cont'>
               <div>
-                <button  className='auth-link' type='link' onClick={()=>setBlogMenu(!blogMenu)}>Blog <FontAwesomeIcon icon={faCaretDown} /></button>
+                <button
+                  className='auth-link'
+                  type='link'
+                  onClick={()=>{
+                    setBlogMenu(!blogMenu);
+                    setAuthMenu(false);
+                  }}>Blog <FontAwesomeIcon icon={faCaretDown} /></button>
               </div>
               <div className= {`auth-menu d-flex flex-column ${blogMenu ? "" : "d-none"}`}>
                 <Link to="/blog/post/GET" onClick={()=>setBlogMenu(!blogMenu)} className='menu-link'>GET</Link>

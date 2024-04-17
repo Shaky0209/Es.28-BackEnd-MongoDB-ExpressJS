@@ -11,7 +11,7 @@ export default function ResponseBlog({content, refresh}) {
                 const {author, category, content, cover, readTime, title, _id} = element;
                 
                 return(
-                    <Col md={3} className="my-2" key={_id}>
+                    <Col sm={6} md={4} lg={3} xl={2} className="my-2" key={_id}>
                         
                         <Post
                             id={_id}

@@ -1,12 +1,15 @@
 .pop-up{
     position: fixed;
-    top: calc((100vh - 590px)/2);
+    top: 2px; /*calc((100vh - 590px)/2);*/
     left: calc((100vw - 450px)/2);
     height: 590px;
     width: 450px;
     background-color: rgba(0, 0, 255, 0.7);
     border: 1px solid white;
     border-radius: 5px;
+    overflow: scroll;
+    overflow-x: hidden;
+    scrollbar-color: blue;
 
 }
 

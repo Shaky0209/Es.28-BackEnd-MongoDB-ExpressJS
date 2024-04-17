@@ -13,7 +13,7 @@ export default function FormAuthor({setId, objId, setName, setSurname, setDate, 
     const formBlog = ["/api/authors/GET"];
 
     return (
-        <Container fluid  className='d-flex flex-column m-3'>
+        <Container fluid  className='d-flex flex-column my-3'>
             <Container fluid className="form-style">
                 <InputGroup className={`mb-3 ${formId.includes(window.location.pathname) ? "d-none" : ""}`}>
                     <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faBarcode} /></InputGroup.Text>

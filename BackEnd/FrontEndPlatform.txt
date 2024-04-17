@@ -1,2 +1,0 @@
-For the front end platform go to:
-https://github.com/Shaky0209/Es.28-FrontEnd-MongoDB-ExpressJS

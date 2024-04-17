@@ -19,49 +19,76 @@ export default function PostBlog() {
   const [popUp, setPopUp] = useState(false);
   const unit = "D/M/Y, h:m:s";
   let date = new Date().toLocaleString();
-  let blogPost;
 
 
-// useEffect utilizzato per fare la prova trasmissione prop con oggetto creato manualmente.
- useEffect(()=>{
-  console.log("Fase 1 newObj = ", newObj);
-  blogPost =  {
-   author: { 
-     name: "Default",
-     avatar: "https://i.mixes.cloud/300x300/extaudio/c/c/5/6/8dc4-f839-4fa7-8bef-328870fe8677",
-   },
-   category: "Default",
-   content: "Default",
-   cover: "https://caffescuola.files.wordpress.com/2021/03/people-5231919_1920.jpg?strip=info&w=1280",
-   readTime: {
-     value: `${date}`,
-     unit: unit,
-   },
-   title: "Default",
- };
- setNewObj(blogPost);
- console.log("Fase 2 newObj = ", newObj);
-}, []);
+
+//   useEffect(()=>{
+//   console.log("Fase 1 newObj = ", newObj);
+
+//   blogPost =  {
+//    author: { 
+//      name: "Default",
+//      avatar: "https://i.mixes.cloud/300x300/extaudio/c/c/5/6/8dc4-f839-4fa7-8bef-328870fe8677",
+//    },
+//    category: "Default",
+//    content: "Default",
+//    cover: "https://caffescuola.files.wordpress.com/2021/03/people-5231919_1920.jpg?strip=info&w=1280",
+//    readTime: {
+//      value: `${date}`,
+//      unit: unit,
+//    },
+//    title: "Default",
+//  };
+
+//  let blogPost2 = {
+//   name: blogPost.author.name,
+//   avatar: blogPost.author.avatar,
+//   category: blogPost.category,
+//   content: blogPost.content, 
+//   cover: blogPost.cover,
+//   value: blogPost.readTime.value,
+//   unit: blogPost.readTime.unit,
+//   title: blogPost.title,
+//  }
+
+//  setNewObj(blogPost2);
+
+//  console.log("Fase 2 newObj = ", newObj);
+// }, []);
+ 
+
   
   
   const fetchFncPost = async ()=>{
     // Questo codice commentato implementerà la funzionalità voluta una volta scoperto il bug.
 
-    // blogPost =  {
-    //   author: { 
-    //     avatar: avatar,
-    //     name: name,
-    //   },
-    //   category: category,
-    //   content: post,
-    //   cover: cover,
-    //   readTime: {
-    //     unit: unit,
-    //     value: `${date}`,
-    //   },
-    //   title: title,
-    // };
-    // setNewObj(blogPost);
+    let blogPost =  {
+      author: { 
+        avatar: avatar,
+        name: name,
+      },
+      category: category,
+      content: post,
+      cover: cover,
+      readTime: {
+        unit: unit,
+        value: `${date}`,
+      },
+      title: title,
+    };
+    
+     let blogPost2 = {
+        name: blogPost.author.name,
+        avatar: blogPost.author.avatar,
+        category: blogPost.category,
+        content: blogPost.content, 
+        cover: blogPost.cover,
+        value: blogPost.readTime.value,
+        unit: blogPost.readTime.unit,
+        title: blogPost.title,
+      }
+
+      setNewObj(blogPost2);
 
     try{  
       const response = await fetch('http://localhost:3001/blog/post',
@@ -99,6 +126,7 @@ export default function PostBlog() {
         btnFnc={()=>{
           fetchFncPost();
         }}/>
+        {console.log("fase 3 newObj= ", newObj)}
         <PopUpBlog popUp={popUp} setPopUp={setPopUp} newObj={newObj} />
     </>
   )
