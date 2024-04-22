@@ -21,8 +21,8 @@ export default function PatchPage() {
         const response = fetch(`//localhost:3001/api/authors/${id}/avatar`, 
         {
           method:"PATCH",
-          body: newAvatar,
-          headers: {"Content-type":"multipart/form-data;boundary=body"}  
+          // body: newAvatar,
+          headers: {"Content-type":"multipart/form-data;boundary=newAvatar"}  
         })
         if(response.ok){
           console.log("Fetch PATCH Riuscita.");
