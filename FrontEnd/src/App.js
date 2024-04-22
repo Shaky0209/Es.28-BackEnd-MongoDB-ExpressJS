@@ -8,6 +8,7 @@ import PutBlog from './Pages/BlogPages/PutBlog/PutBlog.jsx';
 import PostBlog from './Pages/BlogPages/PostBlog/PostBlog.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import PatchPage from './Pages/PatchPage/PatchPage.jsx';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path='/api/authors/POST' element={<PostAuth/>} />
         <Route path='/api/authors/PUT' element={<PutAuth/>} />
         <Route path='/api/authors/PUT/:id' element={<PutAuth/>} />
+        <Route path='/api/authors/:id/avatar' element={<PatchPage />} />
         {/* Blog Routes  */}
         <Route path='/blog/post/GET' element={<GetBlog/>} />
         <Route path='/blog/post/GET/:id' element={<GetBlog/>} />

@@ -3,7 +3,6 @@ import Response from '../../../Components/ResponseAuthor/ResponseAuthor.jsx';
 import Form from '../../../Components/FormAuthor/FormAuthor.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import { Container } from 'react-bootstrap';
-// import './Get.css';
 
 export default function Get() {
 
@@ -14,12 +13,7 @@ export default function Get() {
   useEffect(()=>{
     fetchFncGet();
     console.log("data = ", data);
-  }, [setData]);
-
-  useEffect(()=>{
-    console.log(id);
-  }, [id]);
-  
+  }, []);
 
   const fetchFncGet = async ()=>{
     try{
@@ -58,7 +52,7 @@ export default function Get() {
     <Container fluid className='relative'>
       <Form setId ={setId} />
       <MultipleButton content={label} id={id} btnFnc={fetchFncGetId} />
-      <Response content={data} refresh={fetchFncGet} />
+      {data && <Response content={data} refresh={fetchFncGet} />}
     </Container>
   )
 }

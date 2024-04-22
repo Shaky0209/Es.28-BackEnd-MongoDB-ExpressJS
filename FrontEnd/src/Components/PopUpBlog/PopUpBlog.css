@@ -7,10 +7,15 @@
     background-color: rgba(0, 0, 255, 0.7);
     border: 1px solid white;
     border-radius: 5px;
+    overflow: hidden;
+    
+}
+
+.pop-up-content{
+    height: 93%;
     overflow: scroll;
     overflow-x: hidden;
-    scrollbar-color: blue;
-
+    scrollbar-color: rgb(121, 161, 255) blue;
 }
 
 .button-close{

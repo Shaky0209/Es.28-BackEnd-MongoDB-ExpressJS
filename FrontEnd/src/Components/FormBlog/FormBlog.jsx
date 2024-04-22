@@ -38,6 +38,7 @@ export default function FormBlog({  objId, setId, cover, setCover, category, set
             <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faImage} /></InputGroup.Text>
                 <Form.Control
+                // type='file'
                 value={cover}
                 onChange={(event)=>setCover(event.target.value)}
                 placeholder="Cover Image"

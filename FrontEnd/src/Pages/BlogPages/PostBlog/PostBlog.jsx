@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import FormBlog from '../../../Components/FormBlog/FormBlog.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import PopUpBlog from '../../../Components/PopUpBlog/PopUpBlog.jsx';
@@ -7,7 +6,6 @@ import PopUpBlog from '../../../Components/PopUpBlog/PopUpBlog.jsx';
 
 export default function PostBlog() {
 
-  const navigate = useNavigate();
   const label="Add Post";
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
@@ -19,48 +17,8 @@ export default function PostBlog() {
   const [popUp, setPopUp] = useState(false);
   const unit = "D/M/Y, h:m:s";
   let date = new Date().toLocaleString();
-
-
-
-//   useEffect(()=>{
-//   console.log("Fase 1 newObj = ", newObj);
-
-//   blogPost =  {
-//    author: { 
-//      name: "Default",
-//      avatar: "https://i.mixes.cloud/300x300/extaudio/c/c/5/6/8dc4-f839-4fa7-8bef-328870fe8677",
-//    },
-//    category: "Default",
-//    content: "Default",
-//    cover: "https://caffescuola.files.wordpress.com/2021/03/people-5231919_1920.jpg?strip=info&w=1280",
-//    readTime: {
-//      value: `${date}`,
-//      unit: unit,
-//    },
-//    title: "Default",
-//  };
-
-//  let blogPost2 = {
-//   name: blogPost.author.name,
-//   avatar: blogPost.author.avatar,
-//   category: blogPost.category,
-//   content: blogPost.content, 
-//   cover: blogPost.cover,
-//   value: blogPost.readTime.value,
-//   unit: blogPost.readTime.unit,
-//   title: blogPost.title,
-//  }
-
-//  setNewObj(blogPost2);
-
-//  console.log("Fase 2 newObj = ", newObj);
-// }, []);
- 
-
-  
   
   const fetchFncPost = async ()=>{
-    // Questo codice commentato implementerà la funzionalità voluta una volta scoperto il bug.
 
     let blogPost =  {
       author: { 
@@ -75,20 +33,9 @@ export default function PostBlog() {
         value: `${date}`,
       },
       title: title,
-    };
-    
-     let blogPost2 = {
-        name: blogPost.author.name,
-        avatar: blogPost.author.avatar,
-        category: blogPost.category,
-        content: blogPost.content, 
-        cover: blogPost.cover,
-        value: blogPost.readTime.value,
-        unit: blogPost.readTime.unit,
-        title: blogPost.title,
-      }
+    };     
 
-      setNewObj(blogPost2);
+    setNewObj(blogPost);
 
     try{  
       const response = await fetch('http://localhost:3001/blog/post',
@@ -101,9 +48,7 @@ export default function PostBlog() {
       console.log(response);
       if(response.ok){
         setPopUp(!popUp);
-        console.log("Fetch Blog POST Riuscita ")
-        // alert("Il tuo post è stato inserito.");
-        // navigate("/blog/post/GET");
+        console.log("Fetch Blog POST Riuscita.")
       }
     }catch(err){
       console.error(err)
@@ -126,7 +71,6 @@ export default function PostBlog() {
         btnFnc={()=>{
           fetchFncPost();
         }}/>
-        {console.log("fase 3 newObj= ", newObj)}
         <PopUpBlog popUp={popUp} setPopUp={setPopUp} newObj={newObj} />
     </>
   )

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Author from '../models/author.model.js';
+import cloudinaryMiddleware from '../middlewares/multer.js';
 
 export const apiRoute = Router();
 
@@ -39,6 +40,23 @@ apiRoute.put("/authors/:id", async (req, res, next)=>{
     }
     
 });
+
+apiRoute.patch("/authors/:id/avatar", cloudinaryMiddleware, async (req, res, next) =>{
+    try{
+        //andiamo a prendere l'utente con l'id specifico e andiamo ad aggiornatre la sua proprietà avatar
+        //con {new: true,} stiamo dicendo di restituirci la versione più aggiornata del documento
+        let updateAvatar = await Author.findByIdAndUpdate(
+            req.params.id,
+            {avatar: req.file.path},
+            {new: true,}
+        );
+        //mandiamo come risposta l'utente aggiornato
+        res.send(updateAvatar);
+    }catch(error){
+        //Gestione di eventuali errori
+        next(error);
+    }
+})
 
 apiRoute.delete("/authors/:id", async (req, res, next) =>{
     try{

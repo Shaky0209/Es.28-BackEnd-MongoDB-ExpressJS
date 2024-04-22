@@ -28,11 +28,14 @@ export default function Author({avatar, date, email, name, surname, id, refresh}
     <>
       <div className='d-flex flex-column justify-content-between mb-3 border border-1 p-2 rounded h-100'>
           <div>
-            <img src={avatar} alt="avatar" height={"auto"} style={{width:"100%"}}/>
-            <p className='mb-1'>{name}</p>
-            <p className='mb-1'>{surname}</p>
-            <p className='mb-1'>{date}</p>
-            <p className='mb-1'>{email}</p>
+            <div className='author-img'>
+              <img src={avatar} alt="avatar" height={"auto"} style={{width:"100%"}}/>
+              <button type='button' className='patch-btn' onClick={()=>navigate(`/api/authors/${id}/avatar`)}>Edit</button>
+            </div>
+            <p className='p mb-1'>{name}</p>
+            <p className='p mb-1'>{surname}</p>
+            <p className='p mb-1'>{date}</p>
+            <p className='p mb-1'>{email}</p>
             <p className='id-style mb-1 border border-1'><b>ID: </b>{id}</p>
           </div>        
           <div>

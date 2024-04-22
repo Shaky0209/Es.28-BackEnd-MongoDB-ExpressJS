@@ -18,7 +18,6 @@ export default function GetBlog() {
             let json = await response.json();
             console.log(json);
             setData(json);
-            console.log("data= ", data);
             }else{
             console.log("Fetch blog GET Fallita.");
             }
@@ -48,11 +47,13 @@ export default function GetBlog() {
         fetchFncGet();
     }, []);
     
+    console.log("data= ", data);
+    
   return (
     <Container fluid className='relative'>
       <FormBlog setId ={setId} />
       <MultipleButton content={label} id={id} btnFnc={fetchFncGetId} />
-      <ResponseBlog content={data} refresh={fetchFncGet} />
+      {data && <ResponseBlog content={data} refresh={fetchFncGet} />}
     </Container>
   )
 }

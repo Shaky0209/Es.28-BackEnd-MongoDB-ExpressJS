@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Post.css';
 
-export default function Post({category, title, cover, timeValue, timeUnit, name, avatar, content, id, refresh }) {
+export default function Post({author, readTime, category, title, cover, content, id, refresh }) {
 
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -29,10 +29,10 @@ export default function Post({category, title, cover, timeValue, timeUnit, name,
         <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
         <p className='character mb-0'><b>Category:</b> {category}</p>
         <p className='character mb-0'><b>Title:</b> {title}</p>
-        <img height={"auto"} style={{width:"50px"}} src={avatar} alt="avatar" />
-        <p className='character mb-0'><b>Author:</b> {name || "not found"}</p>
-        <p className='character mb-0'><b>TimeUnit:</b> {timeUnit || "not found"}</p>
-        <p className='character mb-0'><b>RecTime:</b> {timeValue || "not found"}</p>
+        <img height={"auto"} style={{width:"50px"}} src={author.avatar} alt="avatar" />
+        <p className='character mb-0'><b>Author:</b> {author.name}</p>
+        <p className='character mb-0'><b>TimeUnit:</b> {readTime.unit}</p>
+        <p className='character mb-0'><b>RecTime:</b> {readTime.value}</p>
         <p className="fw-bold text-center m-0">Message:</p>
         <p className='character mb-0'>{content}</p>
         <p className='id-style mb-1 border border-1'><b>ID:</b>{id}</p>
@@ -46,7 +46,7 @@ export default function Post({category, title, cover, timeValue, timeUnit, name,
           <button onClick={()=> setShow(!show)} className='card-btn' type='button'>X</button>
         </div>
         <div className="d-flex flex-column justify-content-center align-items-center">
-          <b className='p-5'>Are you sure to delete object "{title}" of  "{name}"?</b>
+          <b className='p-5'>Are you sure to delete object "{title}" of  "{author.name}"?</b>
           <div>
             <button onClick={()=> fetchFncDelete()} className='card-btn delete-btn'>Delete</button>
             <button onClick={()=> setShow(!show)} className='card-btn'>Abort</button>
