@@ -6,9 +6,9 @@ import PostAuth from './Pages/AuthPages/PostAuth/PostAuth.jsx';
 import GetBlog from './Pages/BlogPages/GetBlog/GetBlog.jsx';
 import PutBlog from './Pages/BlogPages/PutBlog/PutBlog.jsx';
 import PostBlog from './Pages/BlogPages/PostBlog/PostBlog.jsx';
+import PatchPage from './Pages/PatchPage/PatchPage.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import PatchPage from './Pages/PatchPage/PatchPage.jsx';
 
 export default function App() {
   return (

@@ -16,12 +16,13 @@ export default function PatchPage() {
     const fetchPatch = ()=>{
 
       const newAvatar = {avatar: avatar}
+
       try{
         const response = fetch(`//localhost:3001/api/authors/${id}/avatar`, 
         {
           method:"PATCH",
-          body: JSON.stringify(newAvatar),
-          headers: {"Content-type":"application/json;charset=UTF-8"}  
+          body: newAvatar,
+          headers: {"Content-type":"multipart/form-data;boundary=body"}  
         })
         if(response.ok){
           console.log("Fetch PATCH Riuscita.");
@@ -47,7 +48,7 @@ export default function PatchPage() {
           aria-describedby="basic-addon1"
           />
         </InputGroup>
-        <MultipleButton content={label} />
+        <MultipleButton content={label} btnFnc={fetchPatch}/>
       </Container>
     </Container>
     <Container fluid className='form-style d-flex flex-column'>
