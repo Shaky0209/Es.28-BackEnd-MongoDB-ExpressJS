@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './Post.css';
 
@@ -6,6 +7,7 @@ export default function Post({author, readTime, category, title, cover, content,
 
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+
 
   const fetchFncDelete = async ()=>{
     try{
@@ -26,7 +28,10 @@ export default function Post({author, readTime, category, title, cover, content,
   return (
     <div className='d-flex flex-column justify-content-between border border-1 rounded p-2 h-100'>
       <div className=''>
-        <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
+        <div className='post-img'>
+          <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
+          <button type='button' className='patch-btn' onClick={()=>navigate(`/blog/post/${id}/cover`)}>Edit</button>
+        </div>
         <p className='character mb-0'><b>Category:</b> {category}</p>
         <p className='character mb-0'><b>Title:</b> {title}</p>
         <img height={"auto"} style={{width:"50px"}} src={author.avatar} alt="avatar" />
@@ -38,6 +43,9 @@ export default function Post({author, readTime, category, title, cover, content,
         <p className='id-style mb-1 border border-1'><b>ID:</b>{id}</p>
       </div>
       <div>
+        <div className='pb-3'>
+          <Link to = {`/blog/post/details/${id}`} >Details</Link>
+        </div>
         <button className='card-btn' onClick={()=> navigate(`/blog/post/PUT/${id}`)} >Edit</button>
         <button className='card-btn ms-1' onClick={()=> setShow(!show)} >Delete</button>
       </div>

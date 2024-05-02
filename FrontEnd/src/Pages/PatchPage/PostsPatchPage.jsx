@@ -5,35 +5,65 @@ import { useParams } from 'react-router-dom';
 import { Container, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faImagePortrait} from '@fortawesome/free-solid-svg-icons';
+import './PostsPatchPage.css';
 
-import './PatchPage.css';
+export default function PostsPatchPage() {
 
-export default function PatchPage() {
-
-    const label = 'Edit Avatar';
+    const label = 'Edit Cover';
     const {id} = useParams();
-    const [avatar, setAvatar] = useState(null);
+    const [cover, setCover] = useState(null);
 
-    const fetchPatch = ()=>{
+    const fetchPatchFile = async ()=>{
 
-      const newAvatar = {avatar: avatar}
-
+      const body = new FormData();
+      body.append('cover', cover);
+      
       try{
-        const response = fetch(`//localhost:3001/api/authors/${id}/avatar`, 
+        const response = await fetch(`//localhost:3001/blog/post/${id}/file/cover`, 
         {
           method:"PATCH",
-          // body: newAvatar,
-          headers: {"Content-type":"multipart/form-data;boundary=newAvatar"}  
-        })
-        if(response.ok){
-          console.log("Fetch PATCH Riuscita.");
-        }else{
-          console.log("Fetch PATCH Fallita.");
+          body: body,
+        })   
+
+      if(response.ok){
+        console.log("Fetch PATCH file Riuscita.");
+        alert("La modifica è andata a buon fine.");
+      }else{
+          console.log("Fetch PATCH file Fallita.");
+          alert("La modifica NON è andata a buon fine.");
         }
       }catch(err){
         console.error(err);
       }
     }
+
+    const fetchPatchLink = async ()=>{
+      try{
+        
+        let img = {cover: cover};
+        console.log("cover = ", cover);
+  
+        const response = await fetch(`//localhost:3001/blog/post/${id}/link/cover`,
+          {
+            method:"PATCH",
+            body: JSON.stringify(img),
+            headers: {"Content-type":"application/json;charset=UTF-8"}      
+          }
+        )
+  
+        if(response.ok){
+          console.log("Fetch Riuscita.");
+          alert("I dati sono stati modificati correttamente");
+        }else{
+          console.log("Fetch Fallita.");
+          alert("La tua modifica non è andata a buon fine.");
+        }
+  
+      }catch(err){
+        console.error(err);
+      }
+    }
+
   return (
     <>
     <Container fluid className='form-style d-flex flex-column mt-2'>
@@ -43,13 +73,11 @@ export default function PatchPage() {
           <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faImagePortrait} /></InputGroup.Text>
           <Form.Control
           type='file'
-          // value={avatar}
-          // onChange={(event)=>setImg(event.target.value)}
-          placeholder="Avatar"
+          onChange={(event)=>setCover(event.target.files[0])}
           aria-describedby="basic-addon1"
           />
         </InputGroup>
-        <MultipleButton content={label} btnFnc={fetchPatch}/>
+        <MultipleButton content={label} btnFnc={fetchPatchFile}/>
       </Container>
     </Container>
     <Container fluid className='form-style d-flex flex-column'>
@@ -58,12 +86,12 @@ export default function PatchPage() {
         <InputGroup className='' style={{height:"40px"}}>
           <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faImagePortrait} /></InputGroup.Text>
           <Form.Control
-          onChange={(event)=>setAvatar(event.target.value)}
-          placeholder="Avatar"
+          onChange={(event)=>setCover(event.target.value)}
+          placeholder="Cover"
           aria-describedby="basic-addon1"
           />
         </InputGroup>
-        <MultipleButton content={label} btnFnc={fetchPatch}/>
+        <MultipleButton content={label} btnFnc={fetchPatchLink}/>
       </Container>
     </Container>
     

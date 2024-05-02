@@ -10,11 +10,6 @@ export default function Get() {
   const [id, setId] = useState("");
   const [data, setData] = useState([]);
   
-  useEffect(()=>{
-    fetchFncGet();
-    console.log("data = ", data);
-  }, []);
-
   const fetchFncGet = async ()=>{
     try{
       let response = await fetch("//localhost:3001/api/authors", {method:"GET"})
@@ -47,6 +42,11 @@ export default function Get() {
       console.error(err);
     }
   }
+
+  useEffect(()=>{
+    fetchFncGet();
+    console.log("data = ", data);
+  }, []);
 
   return (
     <Container fluid className='relative'>

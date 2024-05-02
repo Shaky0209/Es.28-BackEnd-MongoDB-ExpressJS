@@ -44,10 +44,23 @@ const blogPostSchema = new Schema(
         content: {
             type: "String",
             require: true,
-        }
+        },
+
+        comments: [
+            {
+                author:{
+                    type: 'String',
+                    required: true,
+                },
+                description:{
+                    type:"String",
+                    required: true,
+                }
+            }
+        ],
     },
-    "blogPost"
-    
+   "blogpost"
+   
 )
 
 export default model ("blogPost", blogPostSchema);

@@ -1,0 +1,45 @@
+.user{
+    color: #0D6EFD;
+}
+.userImg{
+    height: 30px;
+}
+
+.comment{
+    border: 1px solid #0D6EFD;
+    border-radius: 5px;
+}
+
+div a{
+    text-decoration: none;
+}
+
+.postEdit{
+    position: fixed;
+    top: calc((100vh - 300px) /2);
+    left: 25vw;
+    height: 300px;
+    width: 50vw;
+    background-color: white;
+    border: 1px solid #0D6EFD;
+    border-radius: 10px;
+    
+}
+
+.top-bar-edit{
+    background-color: #0D6EFD;
+    color: white;
+}
+
+.btn-close-edit{
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+}
+
+.post-btn{
+    color: grey;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 0 2px
+}

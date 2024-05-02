@@ -23,15 +23,22 @@ const authorSchema = new Schema(
             type: "String",
             require: false,
         },
+
+        posts:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Post",
+            }
+        ]
     
     },
-    "author", 
+    "Author", 
     
 );
 
 
 // Esportiamo un modello chiamato "user" che rispecchi lo schema "userSchema"
-export default model ("author", authorSchema);
+export default model ("Author", authorSchema);
 
 /* TIPI DI DATO UTILIZZABILI
 
