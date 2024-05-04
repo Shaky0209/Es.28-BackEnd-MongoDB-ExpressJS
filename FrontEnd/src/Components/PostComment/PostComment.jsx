@@ -11,7 +11,6 @@ export default function PostComment({author, description, _id, refresh}) {
     const [value, setValue] = useState("");
     const label = "Edit Comment";
     const {id} = useParams();
-    // let count = 0;
 
     const fetchGetAuth = async ()=>{
         try{

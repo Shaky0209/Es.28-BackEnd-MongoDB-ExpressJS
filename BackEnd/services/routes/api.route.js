@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Author from '../models/author.model.js';
+import Post from '../models/post.model.js';
 import cloudinaryMiddleware from '../middlewares/multerAuthor.js';
 
 export const apiRoute = Router();
@@ -85,6 +86,22 @@ apiRoute.delete("/authors/:id", async (req, res, next) =>{
         await Author.deleteOne({_id: req.params.id});
         res.send(204);
     }catch (err){
+        next(err);
+    }
+});
+
+apiRoute.delete("/author/:id/post/:postId", async(req, res, next)=>{
+    try{
+        let author = await Author.findById(req.params.id);
+        if(author){
+            let comment = await Post.findById(req.params.postId);
+            if(comment){
+                author.posts.pull(comment);
+                await author.save()
+                res.sendStatus(204);
+            }
+        }
+    }catch(err){
         next(err);
     }
 });

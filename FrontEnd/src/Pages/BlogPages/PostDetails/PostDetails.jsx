@@ -70,7 +70,7 @@ export default function PostDetails() {
     <Container fluid className='p-3'>
       <Row>
         {author && <Col md={6}>
-          <div className='d-flex flex-column justify-content-between border border-1 rounded p-2 h-100'>
+          <div className='d-flex flex-column justify-content-between border border-1 rounded p-2'>
             <div className=''>
               <div className='post-img'>
                 <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
