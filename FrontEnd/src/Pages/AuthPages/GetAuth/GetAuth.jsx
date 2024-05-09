@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import Response from '../../../Components/ResponseAuthor/ResponseAuthor.jsx';
-import Form from '../../../Components/FormAuthor/FormAuthor.jsx';
-import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container } from 'react-bootstrap';
+import { StorageContext } from '../../../Context/StorageContextProvider.jsx';
+import Form from '../../../Components/FormAuthor/FormAuthor.jsx';
+import Response from '../../../Components/ResponseAuthor/ResponseAuthor.jsx';
+import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 
 export default function Get() {
 
   const label = "Send Request";
   const [id, setId] = useState("");
   const [data, setData] = useState([]);
+  const {token} = useContext(StorageContext);
+  
+  
+
   
   const fetchFncGet = async ()=>{
     try{
-      let response = await fetch("//localhost:3001/api/authors", {method:"GET"})
+      let response = await fetch("//localhost:3001/api/authors",
+      {
+        method:"GET",
+        headers:{"Authorization":"Bearer " + token}
+      })
       if(response.ok){
         console.log("Fetch authors GET Riuscita.");
         let json = await response.json();
@@ -28,7 +37,11 @@ export default function Get() {
 
   const fetchFncGetId = async ()=>{
     try{
-      let response = await fetch(`http://localhost:3001/api/authors/${id}`)
+      let response = await fetch(`http://localhost:3001/api/authors/${id}`, 
+        {
+          headers:{"Authorization":"Bearer " + token}
+        }
+      )
       if(response.ok){
         console.log("Fetch authors ID Riuscita.");
         let json = [await response.json()];

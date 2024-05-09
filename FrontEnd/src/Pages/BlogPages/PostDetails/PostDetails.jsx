@@ -1,9 +1,11 @@
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import { StorageContext } from '../../../Context/StorageContextProvider';
+import { UserContext } from '../../../Context/UserContextProvider';
 import Form from 'react-bootstrap/Form';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton';
 import PostComment from '../../../Components/PostComment/PostComment.jsx';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
 
 const label = "Add Comment";
 let count = 0;
@@ -12,16 +14,26 @@ export default function PostDetails() {
 
     const {id} = useParams();
     const [data, setData] = useState([]);
-    const [user, setUser] = useState("");
     const [comment, setComment] = useState("");
     const [allComments, setAllComments]= useState([]);
-    const {author, category, content, cover, readTime, title} = data;
+
+    const {token} = useContext(StorageContext);
+    const {user} = useContext(UserContext);
 
     const fetchGetObj = async ()=>{
         try{
-            const response = await fetch(`//localhost:3001/blog/post/${id}`, {method:"GET"})
+            const response = await fetch(`//localhost:3001/blog/post/${id}`,
+            {
+              method:"GET",
+              headers:{"Authorization":"Bearer " + token},
+            });
+
+            if(response.ok){
             let json = await response.json();
             setData(json);
+            fetchGetComments();
+            }
+
         }catch(err){
             console.error(err);
         }
@@ -37,7 +49,7 @@ export default function PostDetails() {
           {
             method:"POST",
             body: JSON.stringify(body),
-            headers:{"Content-type":"application/json;charset=UTF-8"},
+            headers:{"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token},
           })
 
           if(response.ok){
@@ -53,7 +65,7 @@ export default function PostDetails() {
 
     const fetchGetComments = async ()=>{
       try{
-          const response = await fetch(`//localhost:3001/blog/post/${id}/comments/`)
+          const response = await fetch(`//localhost:3001/blog/post/${id}/comments/`,{headers:{"Authorization":"Bearer " + token}});
           let json = await response.json();
           setAllComments(json);
       }catch(err){
@@ -63,26 +75,25 @@ export default function PostDetails() {
   
   useEffect(()=>{
     fetchGetObj();
-    fetchGetComments();
   }, [count]);    
 
   return (
     <Container fluid className='p-3'>
       <Row>
-        {author && <Col md={6}>
+        {data.author && <Col md={6}>
           <div className='d-flex flex-column justify-content-between border border-1 rounded p-2'>
             <div className=''>
               <div className='post-img'>
-                <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
+                <img height={"auto"} style={{width:"100%"}} src={data.cover} alt="cover" />
               </div>
-              <p className='mb-0'><b>Category:</b> {category}</p>
-              <p className='mb-0'><b>Title:</b> {title}</p>
-              <img height={"auto"} style={{width:"50px"}} src={author.avatar} alt="avatar" />
-              <p className='mb-0'><b>Author:</b> {author.name}</p>
-              <p className='mb-0'><b>TimeUnit:</b> {readTime.unit}</p>
-              <p className='mb-0'><b>RecTime:</b> {readTime.value}</p>
+              <p className='mb-0'><b>Category:</b> {data.category}</p>
+              <p className='mb-0'><b>Title:</b> {data.title}</p>
+              <img height={"auto"} style={{width:"50px"}} src={data.author.avatar} alt="avatar" />
+              <p className='mb-0'><b>Author:</b> {data.name}</p>
+              <p className='mb-0'><b>TimeUnit:</b> {data.readTime.unit}</p>
+              <p className='mb-0'><b>RecTime:</b> {data.readTime.value}</p>
               <p className="fw-bold text-center mt-3 mb-1">Message:</p>
-              <p className='mb-0'>{content}</p>
+              <p className='mb-0'>{data.content}</p>
               <p className='id-style mb-1 border border-1 my-3'><b>ID: </b>{id}</p>
             </div>
           </div>
@@ -90,14 +101,6 @@ export default function PostDetails() {
         <Col>
           <Container fluid className='border border-1 rounded p-2 h-100'>
             <Form>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Author ID:</Form.Label>
-                <Form.Control
-                  onChange={(event)=> setUser(event.target.value)}
-                  type="email"
-                  placeholder="Example: 6616a584812a0287e7dc95bb"
-                  />
-              </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Comment:</Form.Label>
                 <Form.Control
@@ -107,7 +110,7 @@ export default function PostDetails() {
                   />
               </Form.Group>
             </Form>
-            <MultipleButton content={label} btnFnc={()=>{fetchAddComment(); count++}} />
+            <MultipleButton content={label} btnFnc={()=>{fetchAddComment(); count++;}} />
             <Container fluid className='border border-1 rounded p-2'>
               {allComments.map((el)=>{
                 const {author, description, _id} = el;
@@ -117,7 +120,7 @@ export default function PostDetails() {
                           author={author}
                           description={description}
                           _id={_id}
-                          refresh={()=>fetchGetComments()}
+                          refresh={()=>fetchGetObj()}
                         />
               })}
             </Container>

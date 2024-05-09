@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import MultipleButton from '../../Components/MultilpleButton/MultipleButton';
+import React, { useState, useContext } from 'react';
+import { StorageContext } from '../../Context/StorageContextProvider';
 import { InputGroup } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Container, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faImagePortrait} from '@fortawesome/free-solid-svg-icons';
+import MultipleButton from '../../Components/MultilpleButton/MultipleButton';
 import './PostsPatchPage.css';
 
 export default function PostsPatchPage() {
@@ -12,6 +13,7 @@ export default function PostsPatchPage() {
     const label = 'Edit Cover';
     const {id} = useParams();
     const [cover, setCover] = useState(null);
+    const {token, setToken} = useContext(StorageContext);
 
     const fetchPatchFile = async ()=>{
 
@@ -23,6 +25,7 @@ export default function PostsPatchPage() {
         {
           method:"PATCH",
           body: body,
+          headers:{"Authorization":"Bearer " + token},
         })   
 
       if(response.ok){
@@ -47,7 +50,7 @@ export default function PostsPatchPage() {
           {
             method:"PATCH",
             body: JSON.stringify(img),
-            headers: {"Content-type":"application/json;charset=UTF-8"}      
+            headers: {"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token}
           }
         )
   

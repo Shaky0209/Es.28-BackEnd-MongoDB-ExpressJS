@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import MultipleButton from '../../Components/MultilpleButton/MultipleButton';
+import React, { useState, useContext } from 'react';
 import { InputGroup } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Container, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faImagePortrait} from '@fortawesome/free-solid-svg-icons';
+import { StorageContext } from '../../Context/StorageContextProvider';
+import MultipleButton from '../../Components/MultilpleButton/MultipleButton';
 import './AuthorsPatchPage.css';
 
 export default function AuthorsPatchPage() {
@@ -12,6 +13,7 @@ export default function AuthorsPatchPage() {
     const label = 'Edit Avatar';
     const {id} = useParams();
     const [avatar, setAvatar] = useState(null);
+    const {token} = useContext(StorageContext);
 
     const fetchPatchFile = async ()=>{
 
@@ -22,6 +24,7 @@ export default function AuthorsPatchPage() {
         {
           method:"PATCH",
           body: body,
+          headers:{"Authorization":"Bearer " + token},
         })  
 
       if(response.ok){
@@ -45,7 +48,7 @@ export default function AuthorsPatchPage() {
           {
             method:"PATCH",
             body: JSON.stringify(body),
-            headers: {"Content-type":"application/json;charset=UTF-8"}      
+            headers: {"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + localStorage.getItem("token")},
           }
         )
   

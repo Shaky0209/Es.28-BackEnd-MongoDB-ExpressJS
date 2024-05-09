@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { StorageContext } from '../../../Context/StorageContextProvider';
 import Form from '../../../Components/FormAuthor/FormAuthor.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import Response from '../../../Components/ResponseAuthor/ResponseAuthor.jsx';
-import { useParams } from 'react-router-dom';
 
 export default function Put() {
-  // setId, setName, setSurname, setDate, setEmail, setImg, id, name, surname, email, date, avatar
+  
   const label = "Edit"
   const {id} = useParams();
   const [objId, setObjId] = useState("");
@@ -14,10 +15,15 @@ export default function Put() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
+  const {token, setToken} = useContext(StorageContext);
 
   const fetchFncUpdate = async ()=>{
     try{
-      const response = await fetch(`//localhost:3001/api/authors/${id}`, {method:"GET"})
+      const response = await fetch(`//localhost:3001/api/authors/${id}`,
+      {
+        method:"GET",
+        headers:{"Authorization":"Bearer " + token},
+      })
 
       if(response.ok){
         console.log("Fetch Riuscita!");
@@ -52,7 +58,7 @@ export default function Put() {
         {
           method:"PUT",
           body: JSON.stringify(updateAuthor),
-          headers: {"Content-type":"application/json;charset=UTF-8"}      
+          headers: {"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token},
         }
       )
 

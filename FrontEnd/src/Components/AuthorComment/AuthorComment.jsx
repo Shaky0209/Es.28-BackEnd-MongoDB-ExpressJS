@@ -1,22 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useParams } from 'react-router-dom';
 import {Form} from 'react-bootstrap';
+import { StorageContext } from '../../Context/StorageContextProvider';
+import { UserContext } from '../../Context/UserContextProvider';
 import MultipleButton from '../MultilpleButton/MultipleButton';
 
-export default function AuthorComment ({id, refresh}) {
 
-    console.log("id = ", id);
+export default function AuthorComment ({postId, setAllComments, refresh}) {
     
     const [post, setPost] = useState([]);
     const [value, setValue] = useState("");
     const [win, setWin] = useState("");
     const [author, setAuthor] = useState({});
-    
-
+    const {id} = useParams();
     const label = "Edit Comment";
+    const {token} = useContext(StorageContext);
+    const {user} = useContext(UserContext);
+    console.log("postId = ", postId);
+    
 
     const fetchPost = async()=>{
         try{
-            const response = await fetch(`http://localhost:3001/author/comments/post/${id}`,{method:"GET"});
+            const response = await fetch(`http://localhost:3001/author/comments/post/${postId}`,
+            {
+                method:"GET",
+                headers:{"Authorization":"Bearer " + token},
+            });
             if(response.ok){
                 let json = await response.json();
                 console.log("post = ", json);
@@ -33,8 +42,11 @@ export default function AuthorComment ({id, refresh}) {
     const fetchAuthor = async ()=>{
         try{
             console.log("post.user = ", post.user);
-            const response = await fetch(`http://localhost:3001/api/authors/${post.user}`, {method:"GET"})
-            console.log("response = ", response);
+            const response = await fetch(`http://localhost:3001/api/authors/${post.user}`,
+            {
+                method:"GET",
+                headers:{"Authorization":"Bearer " + localStorage.getItem("token")},
+            })
             if(response.ok){
                 let json = await response.json();
                 console.log("FetchAuthor = ", json);
@@ -55,18 +67,21 @@ export default function AuthorComment ({id, refresh}) {
                 user: post.user,
             };
 
-            const response = await fetch(`//localhost:3001/author/comments/edit/post/${id}`, 
+            const response = await fetch(`//localhost:3001/author/comments/edit/post/${postId}`, 
             {
                 method:"PUT",
                 body: JSON.stringify(body),
-                headers: {"Content-type":"application/json;charset=UTF-8"}, 
+                headers: {"Content-type":"application/json;charset=UTF-8", "Authorization":"Bearer " + token}, 
             },
         )
         if(response.ok){
+            let json = await response.json();
+            console.log("Edit Comment json = ", json);
             console.log("Fetch Edit Comment Riuscita!");
             setWin(false);
-            // refresh();
-            window.location.reload();
+            alert("Il tuo commento è stato modificato correttamente!");
+            setTimeout(()=>{refresh(); console.log("REFRESH!")}, 10000);
+            
         }else{
             console.log("Fetch Edit Comment Fallita!");
         }
@@ -78,8 +93,11 @@ export default function AuthorComment ({id, refresh}) {
     const fetchDeleteComment = async ()=>{
         try{
             console.log("post.user=",post.user);
-            console.log("commentId=", id);
-            const response = await fetch(`http://localhost:3001/author/comments/authId/${post.user}/commentId/${id}`, {method:"DELETE"})
+            const response = await fetch(`http://localhost:3001/author/comments/authId/${id}/commentId/${postId}`,
+            {
+                method:"DELETE",
+                headers:{"Authorization":"Bearer " + token},
+            })
             if(response.ok){
                 console.log("Fetch Delete Comment Riuscita!");
                 refresh();
@@ -111,7 +129,7 @@ export default function AuthorComment ({id, refresh}) {
         <span className='user'>{author && author.name} {author && author.surname}</span>
         
         <p className='text-center pt-2' >{post.description}</p>
-        <button 
+        {(user===post.user) && <button 
             type='button'
             className='post-btn'
             onClick={()=>{
@@ -121,8 +139,8 @@ export default function AuthorComment ({id, refresh}) {
             }
             >
                 Edit
-            </button>
-            <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>
+            </button>}
+            {(user===post.user) && <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>}
     </div>
 
     <div className={`postEdit ${win ? "" : "d-none"}`}>
@@ -146,7 +164,7 @@ export default function AuthorComment ({id, refresh}) {
                         />
                 </Form.Group>
             </Form>
-            <MultipleButton content={label} btnFnc={()=>{fetchEditComment()}} />
+            <MultipleButton content={label} btnFnc={()=>{fetchEditComment(); refresh()}} />
         </div>
     </div>
     </>

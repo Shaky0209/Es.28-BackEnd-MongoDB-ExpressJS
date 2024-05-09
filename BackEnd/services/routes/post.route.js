@@ -18,7 +18,7 @@ postRoute.post("/post/:id", async (req, res, next)=>{
     try{
         let author = await Author.findById(req.params.id)
         if(!author) next(err);
-        let post = await Post.create({...req.body, user: author});
+        let post = await Post.create({...req.body, user: req.body.user});
         author.posts.push(post._id);
         await author.save();
         res.send(post);
@@ -32,6 +32,7 @@ postRoute.delete("/authId/:id/commentId/:commentId", async(req, res, next)=>{
         let author = await Author.findById(req.params.id);
         if(author){
             let comment = await Post.findById(req.params.commentId)
+            console.log("back-end comment =", comment);
             if(comment){
                 author.posts.pull(comment);
                 await author.save();

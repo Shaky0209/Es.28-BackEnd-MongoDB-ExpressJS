@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { StorageContext } from '../../../Context/StorageContextProvider';
 import FormBlog from '../../../Components/FormBlog/FormBlog.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import PopUpBlog from '../../../Components/PopUpBlog/PopUpBlog.jsx';
@@ -16,6 +17,7 @@ export default function PostBlog() {
   const [newObj, setNewObj] = useState([]);
   const [popUp, setPopUp] = useState(false);
   const unit = "D/M/Y, h:m:s";
+  const {token} = useContext(StorageContext);
   let date = new Date().toLocaleString();
   
   const fetchFncPost = async ()=>{
@@ -42,7 +44,7 @@ export default function PostBlog() {
         {
           method:"POST",
           body: JSON.stringify(blogPost), 
-          headers:{"Content-type":"application/json;charset=UTF-8"},
+          headers:{"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token},
         }
       )
       console.log(response);

@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { StorageContext } from '../../Context/StorageContextProvider';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './Post.css';
@@ -7,11 +8,17 @@ export default function Post({author, readTime, category, title, cover, content,
 
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const {token} = useContext(StorageContext);
+
 
 
   const fetchFncDelete = async ()=>{
     try{
-    const response = await fetch(`//localhost:3001/blog/post/${id}`, {method:"DELETE"})
+    const response = await fetch(`//localhost:3001/blog/post/${id}`,
+    {
+      method:"DELETE",
+      headers:{"Authorization":"Bearer " + token}
+    })
     console.log(response);
     if(response.ok){
       console.log("Fetch post PUT Riuscita.");
@@ -27,7 +34,7 @@ export default function Post({author, readTime, category, title, cover, content,
   }
   return (
     <div className='d-flex flex-column justify-content-between border border-1 rounded p-2 h-100'>
-      <div className=''>
+      <div>
         <div className='post-img'>
           <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
           <button type='button' className='patch-btn' onClick={()=>navigate(`/blog/post/${id}/cover`)}>Edit</button>

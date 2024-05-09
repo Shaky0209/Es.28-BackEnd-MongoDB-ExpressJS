@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { StorageContext } from '../../Context/StorageContextProvider';
+import { UserContext } from '../../Context/UserContextProvider';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import './Author.css';
@@ -8,10 +10,17 @@ export default function Author({avatar, date, email, name, surname, id, refresh}
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const {token} = useContext(StorageContext);
+  const {user} = useContext(UserContext);
+  
 
   const fetchFncDel = async () =>{
     try{
-      const response = await  fetch(`//localhost:3001/api/authors/${id}`, {method: "DELETE"})
+      const response = await  fetch(`//localhost:3001/api/authors/${id}`,
+      {
+        method: "DELETE",
+        headers:{"Authorization":"Bearer " + token}
+      })
     if(response.ok){
       console.log("Fetch Delete Riuscita.");
       setShow(!show);
@@ -30,7 +39,7 @@ export default function Author({avatar, date, email, name, surname, id, refresh}
       <div>
         <div className='author-img'>
           <img src={avatar} alt="avatar" height={"auto"} style={{width:"100%"}}/>
-          <button type='button' className='patch-btn' onClick={()=>navigate(`/api/authors/${id}/avatar`)}>Edit</button>
+          {(user===id) && <button type='button' className='patch-btn' onClick={()=>navigate(`/api/authors/${id}/avatar`)}>Edit</button>}
         </div>
           <p className='p mb-1'>{name}</p>
           <p className='p mb-1'>{surname}</p>
@@ -42,8 +51,8 @@ export default function Author({avatar, date, email, name, surname, id, refresh}
         <div className='pb-3'>
           <Link to={`/api/authors/details/${id}`} >Dettagli</Link>
         </div>
-          <button className='card-btn' type='button' onClick={()=>navigate(`/api/authors/PUT/${id}`)}>Edit</button>
-          <button onClick={()=> setShow(!show)} className='card-btn' type='button'>Delete</button>
+          {(user===id) && <button className='card-btn' type='button' onClick={()=>navigate(`/api/authors/PUT/${id}`)}>Edit</button>}
+          {(user===id) && <button onClick={()=> setShow(!show)} className='card-btn' type='button'>Delete</button>}
         </div>
         <div className={`custom-modal ${show ? "" : "d-none"}`}>
           <div className='d-flex justify-content-end m-2'>

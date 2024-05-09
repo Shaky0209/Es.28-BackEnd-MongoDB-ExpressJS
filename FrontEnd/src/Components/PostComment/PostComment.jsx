@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { StorageContext } from '../../Context/StorageContextProvider';
+import { UserContext } from '../../Context/UserContextProvider';
 import { Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import MultipleButton from '../MultilpleButton/MultipleButton';
@@ -6,18 +8,25 @@ import './PostComment.css';
 
 export default function PostComment({author, description, _id, refresh}) {
 
-    const [user, setUser] = useState();
     const [editPost, setEditPost] = useState(false);
+    const [blogger, setBlogger] = useState("")
     const [value, setValue] = useState("");
     const label = "Edit Comment";
     const {id} = useParams();
-
+    const {token} = useContext(StorageContext);
+    const {user} = useContext(UserContext);
+    
     const fetchGetAuth = async ()=>{
         try{
-            const response = await fetch(`//localhost:3001/api/authors/${author}`, {method:"GET"})
-            let json = await response.json();
+            const response = await fetch(`//localhost:3001/api/authors/${author}`,
+            {
+                method:"GET",
+                headers:{"Authorization":"Bearer " + token}
+            })
             if(response.ok){
-                setUser(json);
+                let json = await response.json();
+                console.log("blogger = ", json);
+                setBlogger(json);
                 console.log("Fetch Get Author OK!");
             }else{
                 console.log("Fetch Get Author KO!");
@@ -31,7 +40,7 @@ export default function PostComment({author, description, _id, refresh}) {
         try{
 
             const body = {
-                author: author,
+                author: blogger,
                 description: value,
                 _id: _id                
             };
@@ -40,7 +49,7 @@ export default function PostComment({author, description, _id, refresh}) {
             {
                 method:"PUT",
                 body: JSON.stringify(body),
-                headers: {"Content-type":"application/json;charset=UTF-8"}, 
+                headers: {"Content-type":"application/json;charset=UTF-8", "Authorization":"Bearer " + token}, 
             },
         )
         if(response.ok){
@@ -60,7 +69,11 @@ export default function PostComment({author, description, _id, refresh}) {
             console.log("id=",id);
             console.log("_id=",_id);
 
-            const response = await fetch(`//localhost:3001/blog/post/${id}/comments/${_id}`, {method:"DELETE"})
+            const response = await fetch(`//localhost:3001/blog/post/${id}/comments/${_id}`,
+            {
+                method:"DELETE",
+                headers:{"Authorization":"Bearer " + token},
+            })
             if(response.ok){
                 console.log("Oggetto rimosso!");
                 refresh();
@@ -79,10 +92,10 @@ export default function PostComment({author, description, _id, refresh}) {
   return (
     <>
     <div className='comment p-2 mb-2'>
-        <img src={user && user.avatar} className='userImg rounded-circle me-2' alt="UserImg" />
-        <span className='user' ><b>{user && user.name} {user && user.surname}:</b></span>
+        <img src={blogger && blogger.avatar} className='userImg rounded-circle me-2' alt="UserImg" />
+        <span className='user' ><b>{blogger && blogger.name} {blogger && blogger.surname}:</b></span>
         <p className='text-center pt-2' >{description}</p>
-        <button 
+        {(user===blogger._id) && <button 
             type='button'
             className='post-btn'
             onClick={()=>{
@@ -92,8 +105,8 @@ export default function PostComment({author, description, _id, refresh}) {
             }
             >
                 Edit
-            </button>
-            <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>
+            </button>}
+            {(user===blogger._id) && <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>}
     </div>
 
     <div className={`postEdit ${editPost ? "" : "d-none"}`}>
@@ -102,9 +115,9 @@ export default function PostComment({author, description, _id, refresh}) {
             <button type='button' className="btn-close-edit m-1" onClick={()=>setEditPost(!editPost)}>X</button>
         </div>
         <div className='p-2'>
-            {user && <div>
-                <img src={user.avatar} height={"40px"} className='rounded-circle m-1' alt="author" />
-                <span className='user'>{user.name} {user.surname}:</span>
+            {blogger && <div>
+                <img src={blogger.avatar} height={"40px"} className='rounded-circle m-1' alt="blogger" />
+                <span className='blogger'>{blogger.name} {blogger.surname}:</span>
             </div>}
             <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

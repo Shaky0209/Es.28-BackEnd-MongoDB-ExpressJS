@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Container } from 'react-bootstrap';
+import { StorageContext } from '../../../Context/StorageContextProvider';
 import FormBlog from '../../../Components/FormBlog/FormBlog.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import ResponseBlog from '../../../Components/ResponseBlog/ResponseBlog.jsx';
@@ -9,10 +10,15 @@ export default function GetBlog() {
     const [id, setId] = useState("");
     const [data, setData] = useState([]);
     const label = "Send Request";
+    const {token, setToken} = useContext(StorageContext);
 
     const fetchFncGet = async ()=>{
         try{
-            let response = await fetch("//localhost:3001/blog/post", {method:"GET"})
+            let response = await fetch("//localhost:3001/blog/post",
+            {
+                method:"GET",
+                headers:{"Authorization":"Bearer " + token},
+            })
             if(response.ok){
             console.log("Fetch blog GET Riuscita.");
             let json = await response.json();
@@ -29,7 +35,8 @@ export default function GetBlog() {
 
     const fetchFncGetId = async ()=>{
         try{
-            let response = await fetch(`http://localhost:3001/blog/post/${id}`)
+            let response = await fetch(`http://localhost:3001/blog/post/${id}`, {headers:{"Authorization":"Bearer " + token}})
+
             if(response.ok){
             console.log("Fetch Riuscita.");
             let json = [await response.json()];

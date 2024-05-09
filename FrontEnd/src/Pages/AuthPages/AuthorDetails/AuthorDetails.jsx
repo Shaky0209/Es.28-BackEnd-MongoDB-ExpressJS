@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
+import { StorageContext } from '../../../Context/StorageContextProvider.jsx';
+import { UserContext } from '../../../Context/UserContextProvider';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import AuthorComment from '../../../Components/AuthorComment/AuthorComment.jsx';
+import Form from 'react-bootstrap/Form';
 
 
 
@@ -11,20 +13,26 @@ export default function AuthorDetails() {
     
     const {id} = useParams();
     const [data, setData] = useState({});
-    const [user, setUser] = useState("");
     const [comment, setComment] = useState("");
     const [allComments, setAllComments]= useState([]);
-    
     const label = "Add Comment";
+    const {token} = useContext(StorageContext);
+    const {user} = useContext(UserContext);
+    let newObj ={};
     let count = 0;
-
+    
+    
     const fetchGetAuthor = async ()=>{
         try{
-            const response = await fetch(`//localhost:3001/api/authors/${id}`, {method:"GET"})
+            const response = await fetch(`//localhost:3001/api/authors/${id}`, 
+            {
+                method:"GET",
+                headers:{"Authorization":"Bearer " + token},            
+            })
             let json = await response.json();
             if(response.ok){
                 console.log("Fetch Get Author Riuscita!");
-                console.log("GetAuthor = ", await json);
+                console.log("GetAuthor = ", json);
                 setData(json);
                 fetchGetComments();
             }else{
@@ -36,12 +44,18 @@ export default function AuthorDetails() {
     }
 
     const fetchGetComments = async ()=>{
-        console.log("FetchGetComments!");
         try{
-            const response = await fetch(`http://localhost:3001/api/authors/${id}/comments/`);
+            const response = await fetch(`http://localhost:3001/api/authors/${id}/comments/`,
+            {
+                method:"GET",
+                headers:{"Authorization":"Bearer " + token}
+            });
+
+            if(response.ok){
             let json = await response.json();
             console.log("GetComments = ", json);
             setAllComments(json);
+            }
         }catch(err){
           console.log(err);
         }
@@ -49,15 +63,15 @@ export default function AuthorDetails() {
 
     const fetchAddComment = async ()=>{
 
-        const body = {author: user, description: comment};
-        console.log("body=",body);
+        const body = {user: user, description: comment};
+        console.log("body=", body);
   
         try{
-          const response = await fetch(`//localhost:3001/author/comments/post/${id}`,
+          const response = await fetch(`http://localhost:3001/author/comments/post/${id}`,
             {
               method:"POST",
               body: JSON.stringify(body),
-              headers:{"Content-type":"application/json;charset=UTF-8"},
+              headers:{"Content-type":"application/json;charset=UTF-8", "Authorization":"Bearer " + token},
             })
   
             if(response.ok){
@@ -67,8 +81,6 @@ export default function AuthorDetails() {
             }else{
                 console.log("Fetch Add Comment KO!");
             }
-
-            fetchGetComments();
 
         }catch(err){
           console.error(err);
@@ -80,7 +92,7 @@ export default function AuthorDetails() {
     }, []);
 
     return (
-        <Container fluid className='p-3'>
+        <Container fluid className='p-3'> 
             <Row>
                 <Col md={6}>
                     <div className='d-flex flex-column justify-content-between border border-1 rounded p-2'>
@@ -94,30 +106,27 @@ export default function AuthorDetails() {
                 <Col>
                 <Container fluid className='border border-1 rounded p-2 h-100'>
                     <Form>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label>Author ID:</Form.Label>
-                        <Form.Control
-                        onChange={(event)=> setUser(event.target.value)}
-                        type="email"
-                        placeholder="Example: 6616a584812a0287e7dc95bb"
-                        />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Comment:</Form.Label>
-                        <Form.Control
-                        onChange={(event)=> setComment(event.target.value)}
-                        as="textarea"
-                        rows={3}
-                        />
-                    </Form.Group>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Comment:</Form.Label>
+                            <Form.Control
+                            onChange={(event)=> setComment(event.target.value)}
+                            as="textarea"
+                            rows={3}
+                            />
+                        </Form.Group>
                     </Form>
                     <MultipleButton content={label} btnFnc={()=>fetchAddComment()} />
-                    <Container fluid className='border border-1 rounded p-2'>
+                    {(allComments.length > 0) && <Container fluid className='border border-1 rounded p-2'>
                         {allComments.map((el)=>{
-                            console.log("el = ",el);
-                            return  <AuthorComment key={el} id={el} refresh={()=>fetchGetComments()} />
+                            
+                            return  <AuthorComment
+                                        key={el} 
+                                        postId={el}
+                                        refresh={()=>fetchGetComments()}
+                                        setAllComments={()=>setAllComments()}
+                                    />
                         })}
-                    </Container>
+                    </Container>}
                 </Container>
                 </Col>
             </Row>

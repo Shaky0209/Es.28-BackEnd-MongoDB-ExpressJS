@@ -14,6 +14,11 @@ const authorSchema = new Schema(
             type: "String", 
             require: true, 
         },
+        
+        password:{
+            type: String,
+            require: true,
+        },
         dateOfBirth:{
             type: "String", 
             require: true, 
@@ -32,7 +37,10 @@ const authorSchema = new Schema(
         ]
     
     },
-    "Author", 
+    {
+        collection: "authors",
+        timestamps: true,
+    },
     
 );
 

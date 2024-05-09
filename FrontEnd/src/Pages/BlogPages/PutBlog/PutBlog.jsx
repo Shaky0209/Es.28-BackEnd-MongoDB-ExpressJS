@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { StorageContext } from '../../../Context/StorageContextProvider';
 import FormBlog from '../../../Components/FormBlog/FormBlog.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton';
-import { useParams } from 'react-router-dom';
 
 export default function PutBlog() {
 
@@ -17,11 +18,16 @@ export default function PutBlog() {
   const [post, setPost] = useState("");
   const [timeValue, setTimeValue] = useState("");
   const [timeUnit, setTimeUnit] = useState("");
+  const {token, setToken} = useContext(StorageContext);
   
 
   const fetchFncUpdate = async ()=>{
     try{
-     const response = await fetch(`//localhost:3001/blog/post/${id}`, {method:"GET"})
+     const response = await fetch(`//localhost:3001/blog/post/${id}`,
+     {
+      method:"GET",
+      headers:{"Authorization":"Bearer " + token},
+    })
       if (response.ok){
         console.log("Fetch Update Riuscita.");
         let json = await response.json();
@@ -67,7 +73,7 @@ export default function PutBlog() {
         {
           method:"PUT",
           body: JSON.stringify(postBlog),
-          headers:{"Content-type":"application/json;charset=UTF-8"}
+          headers:{"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token},
         }        
       )
       if(response.ok){

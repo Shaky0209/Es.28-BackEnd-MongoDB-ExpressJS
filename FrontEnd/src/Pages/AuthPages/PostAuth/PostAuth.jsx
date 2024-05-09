@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { StorageContext } from '../../../Context/StorageContextProvider';
 import FormAuthor from '../../../Components/FormAuthor/FormAuthor.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import PopUpAuthor from '../../../Components/PopUpAuthor/PopUpAuthor.jsx';
@@ -13,6 +14,7 @@ export default function Post() {
   const [date, setDate] = useState("");
   const [img, setImg] = useState("");
   const [newObj, setNewObj] = useState([]);
+  const {token} = useContext(StorageContext);
 
   const fetchFncPost = async ()=>{
 
@@ -32,7 +34,7 @@ export default function Post() {
         {
         method:"POST", 
         body: JSON.stringify(newAuthor),
-        headers:{"Content-type":"application/json;charset=UTF-8"},
+        headers:{"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token},
         }
       )
 
