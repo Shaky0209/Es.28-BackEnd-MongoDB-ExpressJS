@@ -18,8 +18,6 @@ export default function AuthorDetails() {
     const label = "Add Comment";
     const {token} = useContext(StorageContext);
     const {user} = useContext(UserContext);
-    let newObj ={};
-    let count = 0;
     
     
     const fetchGetAuthor = async ()=>{
@@ -29,14 +27,15 @@ export default function AuthorDetails() {
                 method:"GET",
                 headers:{"Authorization":"Bearer " + token},            
             })
-            let json = await response.json();
+
             if(response.ok){
-                console.log("Fetch Get Author Riuscita!");
-                console.log("GetAuthor = ", json);
+                let json = await response.json();
                 setData(json);
                 fetchGetComments();
+                console.log("Fetch Get Author Riuscita!");
+                console.log("GetAuthor = ", json);
             }else{
-                console.log("Fetch Get Author fallita! ", json, "Status = ", response.status);
+                console.log("Fetch Get Author fallita!");
             }
         }catch(err){
             console.log(err);
@@ -53,8 +52,9 @@ export default function AuthorDetails() {
 
             if(response.ok){
             let json = await response.json();
-            console.log("GetComments = ", json);
             setAllComments(json);
+            console.log("fetch comment id = ",id);
+            console.log("GetComments = ", json);
             }
         }catch(err){
           console.log(err);
@@ -116,17 +116,17 @@ export default function AuthorDetails() {
                         </Form.Group>
                     </Form>
                     <MultipleButton content={label} btnFnc={()=>fetchAddComment()} />
-                    {(allComments.length > 0) && <Container fluid className='border border-1 rounded p-2'>
+                    <Container fluid className='border border-1 rounded p-2'>
                         {allComments.map((el)=>{
                             
                             return  <AuthorComment
                                         key={el} 
                                         postId={el}
                                         refresh={()=>fetchGetComments()}
-                                        setAllComments={()=>setAllComments()}
+                                        newRefresh={()=>fetchGetAuthor()}
                                     />
                         })}
-                    </Container>}
+                    </Container>
                 </Container>
                 </Col>
             </Row>

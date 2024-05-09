@@ -35,7 +35,7 @@ export default function PostDetails() {
             }
 
         }catch(err){
-            console.error(err);
+            console.log(err);
         }
     }
 
@@ -75,7 +75,7 @@ export default function PostDetails() {
   
   useEffect(()=>{
     fetchGetObj();
-  }, [count]);    
+  }, []);    
 
   return (
     <Container fluid className='p-3'>

@@ -5,14 +5,6 @@ import { authMiddleware, generateJWT } from '../auth/index.js';
 
 export const logRoute = Router();
 
-// logRoute.get("/", async(req, res, next)=>{
-//     try{
-//         res.send("Login Page.")
-//     }catch(err){
-//         next(err);
-//     }
-// });
-
 logRoute.post("/register", async(req, res, next)=>{
     try{
         let user = await User.create({
@@ -56,4 +48,16 @@ logRoute.get("/profile", authMiddleware, async (req, res, next)=>{
     }catch(err){
         next(err);
     }
-})
+});
+
+// logRoute.get("/google/login", passport.authenticate("google", {scoope: ["profile", "email"]}));
+
+// //NON VA CHIAMATA DA FRONTEND MA VIENE AUTOMATICAMENTE PRESA COME CALLBACK REQUEST DA: /google/login
+// logRoute.get("/callback", passport.authenticate("google", {session: false}), 
+//     (req, res, next)=>{
+//         try{
+//             res.redirect(`http://localhost:3000/profile?accessToken=${req.user.accessToken}`)
+//         }catch (err){
+//             next(err)
+//         }
+//     })

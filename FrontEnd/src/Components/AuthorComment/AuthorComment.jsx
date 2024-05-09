@@ -6,7 +6,7 @@ import { UserContext } from '../../Context/UserContextProvider';
 import MultipleButton from '../MultilpleButton/MultipleButton';
 
 
-export default function AuthorComment ({postId, setAllComments, refresh}) {
+export default function AuthorComment ({postId, refresh}) {
     
     const [post, setPost] = useState([]);
     const [value, setValue] = useState("");
@@ -45,7 +45,7 @@ export default function AuthorComment ({postId, setAllComments, refresh}) {
             const response = await fetch(`http://localhost:3001/api/authors/${post.user}`,
             {
                 method:"GET",
-                headers:{"Authorization":"Bearer " + localStorage.getItem("token")},
+                headers:{"Authorization":"Bearer " + token},
             })
             if(response.ok){
                 let json = await response.json();
@@ -79,11 +79,11 @@ export default function AuthorComment ({postId, setAllComments, refresh}) {
             console.log("Edit Comment json = ", json);
             console.log("Fetch Edit Comment Riuscita!");
             setWin(false);
-            alert("Il tuo commento è stato modificato correttamente!");
-            setTimeout(()=>{refresh(); console.log("REFRESH!")}, 10000);
-            
+            fetchPost();         
         }else{
+            setWin(false)
             console.log("Fetch Edit Comment Fallita!");
+            alert("La modifica non è andata a buon fine!");
         }
         }catch(err){
           console.log(err);
@@ -111,6 +111,7 @@ export default function AuthorComment ({postId, setAllComments, refresh}) {
 
     useEffect(()=>{
         fetchPost();
+        console.log("PostId Fetch = ", postId);
     }, []);
 
     useEffect(()=>{
@@ -141,6 +142,7 @@ export default function AuthorComment ({postId, setAllComments, refresh}) {
                 Edit
             </button>}
             {(user===post.user) && <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>}
+            <button className='post-btn' onClick={()=>newRefresh()} >Refresh</button>
     </div>
 
     <div className={`postEdit ${win ? "" : "d-none"}`}>
@@ -164,7 +166,7 @@ export default function AuthorComment ({postId, setAllComments, refresh}) {
                         />
                 </Form.Group>
             </Form>
-            <MultipleButton content={label} btnFnc={()=>{fetchEditComment(); refresh()}} />
+            <MultipleButton content={label} btnFnc={()=>{fetchEditComment();}} />
         </div>
     </div>
     </>
