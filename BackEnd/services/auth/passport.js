@@ -22,16 +22,16 @@
 
 //     if(user){
 //         // Se l'utente esiste creiamoil token di accesso, utilizzando il servizio di GoogleStrategy
-//         const accToken = await createAccessToken({
+//         const accToken = await generateJWT({
 //             _id: user._id
 //         });
 
 //         // Chiamiamo una callback passando null come errore e accessToken come secondo parametro
-//         passportNext(null, {accessToken})
+//         passportNext(null, {accToken})
 //     }else{
 //         // Se l'utente non esiste crea un nuovo utente
 //         const newUser = new User({
-//             username:email,
+//             email:email,
 //             googleId:sub,
 //         });
 

@@ -33,7 +33,7 @@ export default function LoginPage() {
             localStorage.setItem("user",userLogged.user._id)
             setToken(userLogged.token);
             setUser(userLogged.user._id);
-            navigate(`/api/authors/GET/`);
+            navigate(`/`);
             console.log("Fetch LogIn Riuscita!");
         }else{
             console.log("Fetch LogIn Fallita!");

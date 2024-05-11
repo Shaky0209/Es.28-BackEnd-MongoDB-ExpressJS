@@ -50,7 +50,7 @@ logRoute.get("/profile", authMiddleware, async (req, res, next)=>{
     }
 });
 
-// logRoute.get("/google/login", passport.authenticate("google", {scoope: ["profile", "email"]}));
+// logRoute.get("/googleLogin", passport.authenticate("google", {scoope: ["profile", "email"]}));
 
 // //NON VA CHIAMATA DA FRONTEND MA VIENE AUTOMATICAMENTE PRESA COME CALLBACK REQUEST DA: /google/login
 // logRoute.get("/callback", passport.authenticate("google", {session: false}), 

@@ -34,10 +34,20 @@ const blogPostSchema = new Schema(
                 require: true,
             },
 
+            surname:{
+                type:"String",
+                require: true,
+            },
+
             avatar: {
                 type: "String",
                 require: true,
             },
+
+            _id: {
+                type: Schema.Types.ObjectId,
+                ref:"Author"
+            }
             
         },
 
@@ -49,9 +59,10 @@ const blogPostSchema = new Schema(
         comments: [
             {
                 author:{
-                    type: 'String',
-                    required: true,
+                    type: Schema.Types.ObjectId,
+                    ref: "Post",
                 },
+
                 description:{
                     type:"String",
                     required: true,

@@ -1,14 +1,18 @@
 import React, {useState, useContext} from 'react';
 import { StorageContext } from '../../Context/StorageContextProvider';
+import { UserContext } from '../../Context/UserContextProvider';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './Post.css';
 
 export default function Post({author, readTime, category, title, cover, content, id, refresh }) {
 
+  console.log("Author mio = " , author);
+
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const {token} = useContext(StorageContext);
+  const {user} = useContext(UserContext);
 
 
 
@@ -42,7 +46,7 @@ export default function Post({author, readTime, category, title, cover, content,
         <p className='character mb-0'><b>Category:</b> {category}</p>
         <p className='character mb-0'><b>Title:</b> {title}</p>
         <img height={"auto"} style={{width:"50px"}} src={author.avatar} alt="avatar" />
-        <p className='character mb-0'><b>Author:</b> {author.name}</p>
+        <p className='character mb-0'><b>Author:</b> {author.name} {author.surname}</p>
         <p className='character mb-0'><b>TimeUnit:</b> {readTime.unit}</p>
         <p className='character mb-0'><b>RecTime:</b> {readTime.value}</p>
         <p className="fw-bold text-center m-0">Message:</p>
@@ -53,8 +57,8 @@ export default function Post({author, readTime, category, title, cover, content,
         <div className='pb-3'>
           <Link to = {`/blog/post/details/${id}`} >Details</Link>
         </div>
-        <button className='card-btn' onClick={()=> navigate(`/blog/post/PUT/${id}`)} >Edit</button>
-        <button className='card-btn ms-1' onClick={()=> setShow(!show)} >Delete</button>
+        {(user === author._id) && <button className='card-btn' onClick={()=> navigate(`/blog/post/PUT/${id}`)} >Edit</button>}
+        {(user === author._id) && <button className='card-btn ms-1' onClick={()=> setShow(!show)} >Delete</button>}
       </div>
       <div className={`custom-modal ${show ? "" : "d-none"}`}>
         <div className='d-flex justify-content-end'>

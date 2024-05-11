@@ -142,7 +142,6 @@ export default function AuthorComment ({postId, refresh}) {
                 Edit
             </button>}
             {(user===post.user) && <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>}
-            <button className='post-btn' onClick={()=>newRefresh()} >Refresh</button>
     </div>
 
     <div className={`postEdit ${win ? "" : "d-none"}`}>

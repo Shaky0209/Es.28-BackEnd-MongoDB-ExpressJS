@@ -98,7 +98,7 @@ export default function PostDetails() {
             </div>
           </div>
         </Col>}
-        <Col>
+        <Col className='mt-2 mt-md-0'>
           <Container fluid className='border border-1 rounded p-2 h-100'>
             <Form>
               <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

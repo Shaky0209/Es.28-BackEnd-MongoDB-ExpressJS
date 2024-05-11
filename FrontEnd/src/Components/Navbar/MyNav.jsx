@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { faCaretDown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { StorageContext } from '../../Context/StorageContextProvider';
 import { UserContext } from '../../Context/UserContextProvider';
+import { useNavigate } from 'react-router-dom';
 import './MyNav.css';
 
 export default function MyNav() {
@@ -14,15 +15,45 @@ export default function MyNav() {
   const [authMenu, setAuthMenu] = useState(false);
   const [blogMenu, setBlogMenu] = useState(false);
   const [logMenu, setLogMenu] = useState(false);
+  const [userImg, setUserImg] = useState("");
   const {token, setToken} = useContext(StorageContext);
-  const {user, setuser} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
+  const navigate = useNavigate();
 
+  const getUserImg = async ()=>{
+    try{
+      const response = await fetch(`http://localhost:3001/api/authors/${user}`,
+      {
+        method:"GET",
+        headers: {"Authorization":"Bearer " + token}
+      });
+      if(response.ok){
+        let json = await response.json();
+        const {avatar} = json;
+        setUserImg(avatar);
+      }else{
+        setToken("");
+        setUser("");
+        navigate("/");
+      }
+    }catch(err){
+      console.log(err);
+    }
+
+  };
+
+  useEffect(()=>{
+    if(token){
+      getUserImg();
+    };
+  });
+  
   return (
     <Navbar bg="primary" data-bs-theme="dark">
       <Container fluid>
         <Nav className='d-flex justify-content-between w-100'>
         <div className='d-flex'>
-          <Navbar.Brand href="#home">CorriereAnnunci.it</Navbar.Brand>
+          <Navbar.Brand onClick={()=>navigate("/")} >CorriereAnnunci.it</Navbar.Brand>
           <Link to="/" className='homeLink'>Home</Link>
           <div className='drop-cont'>
             <div>
@@ -56,8 +87,18 @@ export default function MyNav() {
             </div>
           </div>  
         </div>
-        <div className='drop-cont'>
-          <button 
+        <div className='drop-cont d-flex'>
+          <div ></div>
+          {token && <button 
+            className='button-lgd m-0 p-0'
+            style={{backgroundImage:`url(${userImg && userImg})`, backgroundSize:"cover", backgroundPosition:"center"}}
+            onClick={()=>{
+              setAuthMenu(false);
+              setBlogMenu(false);
+              setLogMenu(!logMenu);
+            }}
+            ></button>}
+          {!token && <button 
             type='button'
             className='log-btn'
             onClick={()=>{
@@ -67,7 +108,7 @@ export default function MyNav() {
             }}
           >
             <FontAwesomeIcon icon={faUser}/>
-          </button>
+          </button>}
           <div className={`drop-log d-flex flex-column ${logMenu ? "" : "d-none"}`}>
             {!token && <Link to="/user/login/" onClick={()=>setLogMenu(false)}>Login</Link>}
             {!token && <Link to="/user/register/" onClick={()=>setLogMenu(false)}>Registrati</Link>}
@@ -79,7 +120,7 @@ export default function MyNav() {
                 localStorage.setItem("token", "");
                 localStorage.setItem("user", "");
                 setToken("");
-                setuser("");
+                setUser("");
               }}>Log Out</Link>}
           </div>
         </div>

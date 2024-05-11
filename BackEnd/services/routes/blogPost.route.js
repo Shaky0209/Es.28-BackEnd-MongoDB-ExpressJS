@@ -26,7 +26,9 @@ blogPostRoute.post("/post", async (req, res, next)=>{
             },
             author:{
                 name: req.body.author.name,
+                surname: req.body.author.surname,
                 avatar: req.body.author.avatar,
+                _id: req.body.author._id,
             },
             content: req.body.content,
             comments: [],

@@ -103,7 +103,7 @@ export default function AuthorDetails() {
                         <p className='id-style border border-1'><b>ID:</b> {data._id}</p>
                     </div>  
                 </Col>
-                <Col>
+                <Col className='mt-2 mt-md-0'>
                 <Container fluid className='border border-1 rounded p-2 h-100'>
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -116,7 +116,7 @@ export default function AuthorDetails() {
                         </Form.Group>
                     </Form>
                     <MultipleButton content={label} btnFnc={()=>fetchAddComment()} />
-                    <Container fluid className='border border-1 rounded p-2'>
+                    {(allComments.length > 0) &&<Container fluid className='border border-1 rounded p-2'>
                         {allComments.map((el)=>{
                             
                             return  <AuthorComment
@@ -126,7 +126,7 @@ export default function AuthorDetails() {
                                         newRefresh={()=>fetchGetAuthor()}
                                     />
                         })}
-                    </Container>
+                    </Container>}
                 </Container>
                 </Col>
             </Row>

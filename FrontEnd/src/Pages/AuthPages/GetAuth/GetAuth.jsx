@@ -4,18 +4,21 @@ import { StorageContext } from '../../../Context/StorageContextProvider.jsx';
 import Form from '../../../Components/FormAuthor/FormAuthor.jsx';
 import Response from '../../../Components/ResponseAuthor/ResponseAuthor.jsx';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function Get() {
 
   const label = "Send Request";
   const [id, setId] = useState("");
   const [data, setData] = useState([]);
+  const [spin, setSpin] = useState(false)
   const {token} = useContext(StorageContext);
   
   
 
   
   const fetchFncGet = async ()=>{
+    setSpin(true)
     try{
       let response = await fetch("//localhost:3001/api/authors",
       {
@@ -23,10 +26,12 @@ export default function Get() {
         headers:{"Authorization":"Bearer " + token}
       })
       if(response.ok){
+        setSpin(false);
         console.log("Fetch authors GET Riuscita.");
         let json = await response.json();
         setData(json);
       }else{
+        setSpin(false);
         console.log("Fetch authors GET Fallita.");
       }
       
@@ -65,6 +70,9 @@ export default function Get() {
     <Container fluid className='relative'>
       <Form setId ={setId} />
       <MultipleButton content={label} id={id} btnFnc={fetchFncGetId} />
+      <div className='d-flex justify-content-center'>
+        <Spinner className={spin ? "" : "d-none"} animation="border" variant="primary" />
+      </div>
       {data && <Response content={data} refresh={fetchFncGet} />}
     </Container>
   )

@@ -12,6 +12,7 @@ import PostDetails from '../src/Pages/BlogPages/PostDetails/PostDetails.jsx';
 import AuthorDetails from './Pages/AuthPages/AuthorDetails/AuthorDetails.jsx';
 import LoginPage from './Pages/LoginPage/LoginPage.jsx';
 import RegisterPage from './Pages/RegisterPage/RegisterPage.jsx';
+import MyFooter from './Components/MyFooter/MyFooter.jsx';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import StorageContextProvider from './Context/StorageContextProvider.jsx';
 import UserContextProvider from './Context/UserContextProvider.jsx';
@@ -22,7 +23,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <UserContextProvider>
-      <StorageContextProvider>   
+      <StorageContextProvider>
         <MyNav/>
         <Routes>
           <Route path='/' element={<Home/>} />
@@ -46,6 +47,7 @@ export default function App() {
           <Route path='/user/login/' element={<LoginPage />} />
           <Route path='/user/register/' element={<RegisterPage/>} />
         </Routes>
+        <MyFooter/>
       </StorageContextProvider>
       </UserContextProvider>
     </BrowserRouter>
