@@ -1,0 +1,18 @@
+.art-author{
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.img-size{
+    height: auto;
+    width: 100%;
+}
+
+@media screen and ( max-width: 767px){
+    .img-size{
+        max-height: 100%;
+        width: auto;
+        display: flex;
+        justify-content: center;
+    }    
+}

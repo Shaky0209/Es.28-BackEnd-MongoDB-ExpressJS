@@ -63,7 +63,7 @@ export default function GetBlog() {
     console.log("data= ", data);
     
   return (
-    <Container fluid className='relative'>
+    <Container fluid className='relative mb-5 pb-5'>
       <FormBlog setId ={setId} />
       <MultipleButton content={label} id={id} btnFnc={fetchFncGetId} />
       <div className='d-flex justify-content-center'>

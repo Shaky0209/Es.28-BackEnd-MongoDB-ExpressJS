@@ -1,0 +1,9 @@
+Ciao Alessandro, 
+
+Nei vari aggiornamenti del codice mi sono ritrovato a dover eliminare una parte sul front-end 
+ormai non più essenziale e tanto meno utile.
+Si tratta della parte dove prima dell'autenticazione creavamo un Author allo stesso modo di come 
+si crea un Post. Attualmente è possibile effettuare questa operazione nell'area di registrazione, 
+per tanto ho rimosso la pagina PostAuth, seppur ho lasciato il codice della pagina in caso fosse
+utile per la valutazione. Non avendo potuto parlare nel week-end con nessuno al momento in cui mi
+sono venuti questi dubbi ho agito in autonomia ed ho ritenuto più opportuno agire in questo modo.

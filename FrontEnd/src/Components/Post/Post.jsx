@@ -41,7 +41,7 @@ export default function Post({author, readTime, category, title, cover, content,
       <div>
         <div className='post-img'>
           <img height={"auto"} style={{width:"100%"}} src={cover} alt="cover" />
-          <button type='button' className='patch-btn' onClick={()=>navigate(`/blog/post/${id}/cover`)}>Edit</button>
+          {(user === author._id) && <button type='button' className='patch-btn' onClick={()=>navigate(`/blog/post/${id}/cover`)}>Edit</button>}
         </div>
         <p className='character mb-0'><b>Category:</b> {category}</p>
         <p className='character mb-0'><b>Title:</b> {title}</p>

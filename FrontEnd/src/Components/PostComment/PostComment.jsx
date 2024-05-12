@@ -92,21 +92,28 @@ export default function PostComment({author, description, _id, refresh}) {
   return (
     <>
     <div className='comment p-2 mb-2'>
-        <img src={blogger && blogger.avatar} className='userImg rounded-circle me-2' alt="UserImg" />
-        <span className='user' ><b>{blogger && blogger.name} {blogger && blogger.surname}:</b></span>
-        <p className='text-center pt-2' >{description}</p>
-        {(user===blogger._id) && <button 
-            type='button'
-            className='post-btn'
-            onClick={()=>{
-                setValue(description);
-                setEditPost(true);
-                }
-            }
-            >
-                Edit
-            </button>}
-            {(user===blogger._id) && <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>}
+        <div>
+            <img src={blogger && blogger.avatar} className='userImg rounded-circle me-2' alt="UserImg" />
+            <span className='user' ><b>{blogger && blogger.name} {blogger && blogger.surname}:</b></span>
+            <p className='text-center pt-2' >{description}</p>
+            <div className="d-flex justify-content-between flex-wrap">
+                <span className='comment-id'><b>ID: {_id}</b></span>
+                <div>
+                    {(user===blogger._id) && <button 
+                        type='button'
+                        className='post-btn'
+                        onClick={()=>{
+                            setValue(description);
+                            setEditPost(true);
+                            }
+                        }
+                    >
+                        Edit
+                    </button>}
+                    {(user===blogger._id) && <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>}
+                </div>
+            </div>
+        </div>
     </div>
 
     <div className={`postEdit ${editPost ? "" : "d-none"}`}>

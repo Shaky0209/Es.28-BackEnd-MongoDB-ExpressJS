@@ -69,5 +69,21 @@
     border-radius: 50%;
     background-color: white;
     border: 2px solid rgba(0, 255, 38, 0.732);
+}
 
+@media screen and (max-width: 767px){
+    .drop-log{
+        left: 0px;
+    }
+
+    .drop-menu{
+        left: 60px;
+        bottom: -35px;
+    }
+}
+
+@media screen and (max-width: 299px){
+    .brand-size{
+        font-size: 13pt !important;
+    }
 }

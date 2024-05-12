@@ -12,7 +12,7 @@ export default function FormBlog({  objId, setId, cover, setCover, category, set
     const formBlog = ["/blog/post/GET"];
         
   return (
-    <Container fluid  className="d-flex flex-column my-3">
+    <Container fluid  className="d-flex flex-column mt-3">
         <Container fluid className="form-style">
             <InputGroup className={`mb-3 ${!formIdEdit.includes(window.location.pathname) ? "" : "d-none"}`}>
                 <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faBarcode} /></InputGroup.Text>

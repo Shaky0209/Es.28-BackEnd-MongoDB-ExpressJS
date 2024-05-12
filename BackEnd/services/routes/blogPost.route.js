@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import Post from '../models/blogPost.model.js';
-import cloudinaryMiddleware from '../middlewares/multerPost.js';
+import cloudMiddleware from '../middlewares/multerPost.js';
 
 export const blogPostRoute = Router();
 
@@ -61,7 +61,7 @@ blogPostRoute.patch("/post/:id/link/cover", async (req, res, next) =>{
     }
 })
 
-blogPostRoute.patch("/post/:id/file/cover", cloudinaryMiddleware, async (req, res, next) =>{
+blogPostRoute.patch("/post/:id/file/cover", cloudMiddleware, async (req, res, next) =>{
     try{
         //andiamo a prendere l'utente con l'id specifico e andiamo ad aggiornatre la sua proprietà avatar
         //con {new: true,} stiamo dicendo di restituirci la versione più aggiornata del documento
@@ -100,6 +100,16 @@ blogPostRoute.get("/post/:id/comments/", async (req, res, next)=>{
     try{
         let post = await Post.findById(req.params.id);
         res.json(post.comments);
+    }catch (err){
+        next(err);
+    }
+});
+
+blogPostRoute.get("/post/:id/comments/:commentId", async (req, res, next)=>{
+    try{
+        let post = await Post.findById(req.params.id);
+        let comment= post.comments.id(req.params.commentId);
+        res.json(comment);
     }catch (err){
         next(err);
     }

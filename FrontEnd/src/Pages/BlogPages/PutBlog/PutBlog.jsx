@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { StorageContext } from '../../../Context/StorageContextProvider';
 import FormBlog from '../../../Components/FormBlog/FormBlog.jsx';
@@ -18,7 +19,7 @@ export default function PutBlog() {
   const [post, setPost] = useState("");
   const [timeValue, setTimeValue] = useState("");
   const [timeUnit, setTimeUnit] = useState("");
-  const {token, setToken} = useContext(StorageContext);
+  const {token} = useContext(StorageContext);
   
 
   const fetchFncUpdate = async ()=>{
@@ -95,7 +96,7 @@ export default function PutBlog() {
   
   
   return (
-    <>
+    <Container fluid className='mb-5 pb-5'>
       <FormBlog
         objId={objId}
         setObjId={setObjId}
@@ -113,6 +114,6 @@ export default function PutBlog() {
         setPost={setPost}
       />
       <MultipleButton content={label} btnFnc={()=>fetchFncPut()}/>
-    </>
+    </Container>
   )
 }
