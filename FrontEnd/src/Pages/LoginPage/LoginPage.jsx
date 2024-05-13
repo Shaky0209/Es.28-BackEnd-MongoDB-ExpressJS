@@ -1,7 +1,7 @@
 import React, { useState, useContext} from 'react';
 import { StorageContext } from '../../Context/StorageContextProvider.jsx';
 import { UserContext } from '../../Context/UserContextProvider.jsx';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import MultipleButton from '../../Components/MultilpleButton/MultipleButton';
@@ -14,11 +14,12 @@ export default function LoginPage() {
     const {setUser} = useContext(UserContext);
     const navigate = useNavigate();
     const label = "Enter";
-
+    
     const fetchLogin = async ()=>{
+        console.log(process.env.REACT_APP_SERVER_URL);
 
         let body = {email: email, password: password}
-        const response = await fetch(`http://localhost:3001/log/login`,
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/log/login`,
             {
                 method:"POST",
                 body: JSON.stringify(body),
@@ -41,9 +42,17 @@ export default function LoginPage() {
         }
     }
 
+    const googleLogIn = (event)=>{        
+        event.preventDefault();
+        const link = process.env.REACT_APP_SERVER_URL_G_LOGIN;
+        window.open(link, "_self");
+    }
+
+    
   return (
-    <Container fluid style={{height:"80vh"}} className='d-flex justify-contente-center align-items-center'>
+    <Container fluid style={{height:"91vh"}} className='d-flex justify-contente-center align-items-center'>
         <Container style={{width:"50vw"}}>
+            <h4 className='text-center mb-5'>Inserisci i tuoi dati di accesso!</h4>
             <Form>
                 <Form.Group className="mb-3">
                     <Form.Control
@@ -59,10 +68,17 @@ export default function LoginPage() {
                         placeholder="Password"
                     />
                 </Form.Group>
-                <MultipleButton content={label} btnFnc={()=>fetchLogin()}/>            
+                <MultipleButton content={label} btnFnc={()=>fetchLogin()}/> 
+                <div className='d-flex flex-column align-items-center'>
+                    <p>Oppure...</p>
+                    <Button type='button' onClick={(event)=>googleLogIn(event)}>
+                        <img  style={{height:"60px", width:"80px"}} className='me-2' src="https://i.pinimg.com/736x/19/74/89/1974895dcb39192c99c0156e80494d3e.jpg" alt="googleLogin" />
+                        Accedi con Google!
+                    </Button>
+                </div>
             </Form>
+           </Container>
         </Container>
-    </Container>
   );
 }
 

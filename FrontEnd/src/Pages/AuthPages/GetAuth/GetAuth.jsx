@@ -42,7 +42,7 @@ export default function Get() {
 
   const fetchFncGetId = async ()=>{
     try{
-      let response = await fetch(`http://localhost:3001/api/authors/${id}`, 
+      let response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${id}`, 
         {
           headers:{"Authorization":"Bearer " + token}
         }

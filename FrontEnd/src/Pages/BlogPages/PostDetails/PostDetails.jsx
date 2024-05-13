@@ -29,7 +29,7 @@ export default function PostDetails() {
 
     const fetchGetObj = async ()=>{
       try{
-          const response = await fetch(`http://localhost:3001/blog/post/661c13d16452ba208118a4b7`,
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog/post/${id}`,
           {
             method:"GET",
             headers:{"Authorization":"Bearer " + token},
@@ -86,7 +86,7 @@ export default function PostDetails() {
       console.log("objId = ", objId);
       console.log("ID = ", id);
       try{
-        const response = await fetch(`http://localhost:3001/blog/post/${id}/comments/${objId}`,
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog/post/${id}/comments/${objId}`,
           {
             method:"GET",
             headers:{"Authorization":"Bearer " + token}
@@ -159,7 +159,7 @@ export default function PostDetails() {
                 </Form.Group>
               </Form>
               <MultipleButton content={label} btnFnc={()=>{fetchAddComment(); count++;}} />
-              <Container fluid className='border border-1 rounded p-2'>
+              <Container fluid className='p-2'>
                 {allComments.map((el)=>{
                   const {author, description, _id} = el;
 

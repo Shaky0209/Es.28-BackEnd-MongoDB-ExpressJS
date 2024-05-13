@@ -68,7 +68,8 @@
     width: 40px;
     border-radius: 50%;
     background-color: white;
-    border: 2px solid rgba(0, 255, 38, 0.732);
+    /* border: 2px solid rgba(0, 255, 38, 0.732); */
+    border: 2px solid rgb(255, 157, 0)
 }
 
 @media screen and (max-width: 767px){

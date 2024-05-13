@@ -45,7 +45,7 @@ export default function PostBlog() {
     setNewObj(blogPost);
 
     try{  
-      const response = await fetch('http://localhost:3001/blog/post',
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog/post`,
         {
           method:"POST",
           body: JSON.stringify(blogPost), 
@@ -65,7 +65,7 @@ export default function PostBlog() {
 
   const fetchGetAuthor = async()=>{
     try{
-      const response = await fetch(`http://localhost:3001/api/authors/${user}`,
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${user}`,
       {
         method:"GET",
         headers:{"Authorization":"Bearer " + token}

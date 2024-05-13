@@ -41,7 +41,7 @@ export default function GetBlog() {
 
     const fetchFncGetId = async ()=>{
         try{
-            let response = await fetch(`http://localhost:3001/blog/post/${id}`, {headers:{"Authorization":"Bearer " + token}})
+            let response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog/post/${id}`, {headers:{"Authorization":"Bearer " + token}})
 
             if(response.ok){
                 console.log("Fetch Riuscita.");

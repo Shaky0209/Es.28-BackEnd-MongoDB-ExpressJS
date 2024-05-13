@@ -9,7 +9,7 @@ import './PostComment.css';
 export default function PostComment({author, description, _id, refresh}) {
 
     const [editPost, setEditPost] = useState(false);
-    const [blogger, setBlogger] = useState("")
+    const [blogger, setBlogger] = useState("");
     const [value, setValue] = useState("");
     const label = "Edit Comment";
     const {id} = useParams();

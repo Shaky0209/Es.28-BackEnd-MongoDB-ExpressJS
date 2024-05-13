@@ -19,16 +19,19 @@ export default function MyNav() {
   const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
 
+  console.log("USER == ", user);
   const getUserImg = async ()=>{
     try{
-      const response = await fetch(`http://localhost:3001/api/authors/${user}`,
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${user}`,
       {
         method:"GET",
         headers: {"Authorization":"Bearer " + token}
       });
       if(response.ok){
         let json = await response.json();
+        console.log("json avatar == ", json)
         const {avatar} = json;
+        console.log("avatar json == ", avatar);
         setUserImg(avatar);
       }else{
         setToken("");
@@ -86,7 +89,7 @@ export default function MyNav() {
             <div ></div>
             {token && <button 
               className='button-lgd m-0 p-0'
-              style={{backgroundImage:`url(${userImg && userImg})`, backgroundSize:"cover", backgroundPosition:"center"}}
+              style={{backgroundImage:`url(${user ? userImg && userImg : "https://download.logo.wine/logo/Microsoft_account/Microsoft_account-Logo.wine.png"})`, backgroundSize:"cover", backgroundPosition:"center"}}
               onClick={()=>{
                 setBlogMenu(false);
                 setLogMenu(!logMenu);

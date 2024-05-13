@@ -10,6 +10,8 @@ export default function AuthorComment ({postId, refresh}) {
     
     const [post, setPost] = useState([]);
     const [value, setValue] = useState("");
+    // const [blogger, setBlogger] = useState("");
+    const [editPost, setEditPost] = useState(false);
     const [win, setWin] = useState("");
     const [author, setAuthor] = useState({});
     const {id} = useParams();
@@ -21,7 +23,7 @@ export default function AuthorComment ({postId, refresh}) {
 
     const fetchPost = async()=>{
         try{
-            const response = await fetch(`http://localhost:3001/author/comments/post/${postId}`,
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/author/comments/post/${postId}`,
             {
                 method:"GET",
                 headers:{"Authorization":"Bearer " + token},
@@ -42,7 +44,7 @@ export default function AuthorComment ({postId, refresh}) {
     const fetchAuthor = async ()=>{
         try{
             console.log("post.user = ", post.user);
-            const response = await fetch(`http://localhost:3001/api/authors/${post.user}`,
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${post.user}`,
             {
                 method:"GET",
                 headers:{"Authorization":"Bearer " + token},
@@ -93,7 +95,7 @@ export default function AuthorComment ({postId, refresh}) {
     const fetchDeleteComment = async ()=>{
         try{
             console.log("post.user=",post.user);
-            const response = await fetch(`http://localhost:3001/author/comments/authId/${id}/commentId/${postId}`,
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/author/comments/authId/${id}/commentId/${postId}`,
             {
                 method:"DELETE",
                 headers:{"Authorization":"Bearer " + token},
@@ -128,20 +130,39 @@ export default function AuthorComment ({postId, refresh}) {
     <div className='comment p-2 mb-2'>
         <img src={author && author.avatar} className='userImg rounded-circle me-2' alt="UserImg" />
         <span className='user'>{author && author.name} {author && author.surname}</span>
-        
-        <p className='text-center pt-2' >{post.description}</p>
-        {(user===post.user) && <button 
-            type='button'
-            className='post-btn'
-            onClick={()=>{
-                setValue(post.description);
-                setWin(true);
-                }
-            }
-            >
-                Edit
-            </button>}
-            {(user===post.user) && <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>}
+            <p className='text-center pt-2' >{post.description}</p>
+        <div className='d-flex justify-content-between'>
+            <span className='comment-id mb-0'><b>ID: </b>{post._id}</span>
+            <div>
+                {(user===post.user) && <button 
+                    type='button'
+                    className='post-btn'
+                    onClick={()=>{
+                        setValue(post.description);
+                        setWin(true);
+                        }
+                    }
+                    >
+                        Edit
+                    </button>}
+                    {(user===post.user) && <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>}
+                    <div>
+                        {console.log("user, author._id = ", user, author._id)}
+                            {user===author._id ?? <button 
+                                type='button'
+                                className='post-btn'
+                                onClick={()=>{
+                                    setValue();
+                                    setEditPost(true);
+                                    }
+                                }
+                            >
+                                Edit
+                            </button>}
+                            {user===author._id ?? <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>}
+                        </div>
+                    </div>
+                </div>
     </div>
 
     <div className={`postEdit ${win ? "" : "d-none"}`}>

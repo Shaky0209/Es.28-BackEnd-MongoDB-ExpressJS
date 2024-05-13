@@ -31,7 +31,7 @@ export default function TextControlsExample() {
                     avatar: link,
                     posts:[],
                 }
-                const response = await fetch(`http://localhost:3001/log/register`,
+                const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/log/register`,
                     {
                         method:"POST",
                         body: JSON.stringify(body),
@@ -58,7 +58,7 @@ export default function TextControlsExample() {
     }
 
   return (
-    <Container fluid>
+    <Container fluid style={{height:"90vh"}}>
         <Container className="register-form mt-3">
             <h2 className='text-center mb-3'>Compila il form di Registrazione</h2>
             <Form>

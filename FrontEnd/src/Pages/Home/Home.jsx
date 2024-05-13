@@ -2,17 +2,51 @@ import React, { useContext } from 'react';
 import {Container, Row, Col, Alert, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { StorageContext } from '../../Context/StorageContextProvider';
+import { UserContext } from '../../Context/UserContextProvider';
 import './Home.css';
 
 export default function Home() {
+  const {token, setToken}= useContext(StorageContext);
+  const {user, setUser}= useContext(UserContext);
+  let params = new URLSearchParams(document.location.search);
+  let accessToken = params.get("accessToken");
 
-  const {token}= useContext(StorageContext);
+  const fetchGetMe = async()=>{
+    try{
+      console.log("URL ", process.env.REACT_APP_SERVER_URL);
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/log/me`, 
+        {
+          method:"GET",
+          headers:{"Authorization":"Bearer " + token},
+        }
+      )
+      if(response.ok){
+        console.log("Fetch me OK")
+        let json = await response.json()
+        setUser(json._id);
+        localStorage.setItem("user", json._id);
+      }else{
+        console.log("Fetch me KO!")
+      }
+    }catch(err){
+      console.log("Fetch me KO")
+      console.log(err);
+    }
+  }
+  
+  if(accessToken){
+    fetchGetMe();
+    console.log("accessToken === ", accessToken);
+    localStorage.setItem("token", accessToken);
+    setToken(accessToken);
+  }
+  
 
   return (
     <Container fluid className='d-flex justify-content-center align-items-center'>
       <Row className='mt-1 mb-5 pb-5 w-100'>
         <Col sm={12} md={2} className='order-1 order-md-0' >
-          <div className='border border-1 rounded p-2'>
+          <div className='p-2'>
             <h6 className='text-center py-2' >I nostri Partner:</h6>
             <div 
               className='border border-2 rounded my-2'
@@ -86,7 +120,7 @@ export default function Home() {
           </div>
         </Col>
         <Col sm={12} md={2} className='order-2'>
-          <div className='border border-1 rounded p-2'>
+          <div className='p-2'>
             <h6 className='text-center py-2' >I nostri Sponsor:</h6>
             <div 
               className='border border-2 rounded my-2 p-5' 

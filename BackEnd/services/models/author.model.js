@@ -12,13 +12,19 @@ const authorSchema = new Schema(
         },
         email:{
             type: "String", 
-            require: true, 
+            require: false, 
         },
         
         password:{
             type: String,
             require: true,
         },
+
+        googleId:{
+            type: String,
+            require: false,
+        },
+
         dateOfBirth:{
             type: "String", 
             require: true, 

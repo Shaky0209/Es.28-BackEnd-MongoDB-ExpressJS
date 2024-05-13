@@ -39,6 +39,10 @@ apiRoute.get("/authors/:id/comments/", async(req, res, next)=>{
     }
 });
 
+apiRoute.get("/authors/:id/comments/commentId", async(req, res, next)=>{
+    
+});
+
 
 apiRoute.put("/authors/:id", async (req, res, next)=>{
     try{

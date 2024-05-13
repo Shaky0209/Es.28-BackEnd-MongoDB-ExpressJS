@@ -13,10 +13,10 @@ export default function MyFooter() {
                 <p className='mb-0 mt-5 pt-4'>Sede operativa:<br />Via E. Natali, 21<br/>Fabriano — Ancona</p>
             </div>
             <div className='col-12 col-md-4 d-flex justify-content-center align-items-center h-100'>
-                <p className='mb-0 mt-5 pt-4'>Contatti:<br/>Tel.: +39 0732 645280<br/>Email: info@corriereincontri.it</p>
+                <p className='mb-0 mt-5 pt-4'>Contatti:<br/>Tel.: +39 0732 645280<br/>Email: contact@corriereincontri.it</p>
             </div>
         <div className='col-12 d-flex justify-content-center h-100'>
-            <p className='p-iva mb-0 mt-5 pt-5'>COPYRIGHT © 2024 - Corriere Annunci s.r.l. — P.IVA/C.F. IT02155650423, ISCR.REG.IMP. AN N. 02155650423, CAP. SOC. EURO 100.000,00</p>
+            <p className='p-iva mb-0 mt-5 pt-5'>COPYRIGHT © 2024 - Corriere Annunci s.r.l. — P.IVA/C.F. IT03255659874, ISCR.REG.IMP. AN N. 03255659874, CAP. SOC. EURO 200.000,00</p>
         </div>
         </div>
     </Container>

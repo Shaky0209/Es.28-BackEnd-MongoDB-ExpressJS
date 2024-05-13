@@ -1,20 +1,26 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, InputGroup } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { StorageContext } from '../../../Context/StorageContextProvider.jsx';
 import { UserContext } from '../../../Context/UserContextProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBarcode } from '@fortawesome/free-solid-svg-icons';
 import MultipleButton from '../../../Components/MultilpleButton/MultipleButton.jsx';
 import AuthorComment from '../../../Components/AuthorComment/AuthorComment.jsx';
+import SingleCommentAuthor from '../../../Components/SingleCommentAuthor/SingleCommentAuthor.jsx';
 import Form from 'react-bootstrap/Form';
+import './AuthorDetails.css';
 
 
 
 export default function AuthorDetails() {
     
     const {id} = useParams();
+    const [objId, setObjId] = useState("");
     const [data, setData] = useState({});
     const [comment, setComment] = useState("");
     const [allComments, setAllComments]= useState([]);
+    const [sComment, setSComment] = useState(false);
     const label = "Add Comment";
     const {token} = useContext(StorageContext);
     const {user} = useContext(UserContext);
@@ -44,7 +50,7 @@ export default function AuthorDetails() {
 
     const fetchGetComments = async ()=>{
         try{
-            const response = await fetch(`http://localhost:3001/api/authors/${id}/comments/`,
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${id}/comments/`,
             {
                 method:"GET",
                 headers:{"Authorization":"Bearer " + token}
@@ -67,7 +73,7 @@ export default function AuthorDetails() {
         console.log("body=", body);
   
         try{
-          const response = await fetch(`http://localhost:3001/author/comments/post/${id}`,
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/author/comments/post/${id}`,
             {
               method:"POST",
               body: JSON.stringify(body),
@@ -92,7 +98,12 @@ export default function AuthorDetails() {
     }, []);
 
     return (
-        <Container fluid className='p-3'> 
+        <Container fluid className='p-3'>
+            <SingleCommentAuthor
+                objId={objId}
+                sComment={sComment}
+                setSComment={setSComment}
+            />
             <Row>
                 <Col md={6}>
                     <div className='d-flex flex-column justify-content-between border border-1 rounded p-2'>
@@ -106,6 +117,15 @@ export default function AuthorDetails() {
                 <Col className='mt-2 mt-md-0'>
                 <Container fluid className='border border-1 rounded p-2 h-100'>
                     <Form>
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text id="basic-addon1"><FontAwesomeIcon icon={faBarcode} /></InputGroup.Text>
+                        <Form.Control
+                        onChange={(event)=>setObjId(event.target.value)}
+                        placeholder="Search by Comment ID"
+                        aria-describedby="basic-addon1"
+                        />
+                        <button type='button' className="search-byId" onClick={()=>setSComment(true)}>Search</button>
+                    </InputGroup>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>Comment:</Form.Label>
                             <Form.Control
@@ -116,20 +136,20 @@ export default function AuthorDetails() {
                         </Form.Group>
                     </Form>
                     <MultipleButton content={label} btnFnc={()=>fetchAddComment()} />
-                    {(allComments.length > 0) &&<Container fluid className='border border-1 rounded p-2'>
+                    {(allComments.length > 0) &&<Container fluid className='p-2'>
                         {allComments.map((el)=>{
                             
                             return  <AuthorComment
                                         key={el} 
                                         postId={el}
                                         refresh={()=>fetchGetComments()}
-                                        newRefresh={()=>fetchGetAuthor()}
                                     />
                         })}
                     </Container>}
                 </Container>
                 </Col>
             </Row>
+            <div className='foot'></div>
         </Container>
     )
 }

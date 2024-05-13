@@ -97,7 +97,7 @@ export default function PostsPatchPage() {
         <MultipleButton content={label} btnFnc={fetchPatchLink}/>
       </Container>
     </Container>
-    
+    <div className='space'></div>    
     </>
   )
 }

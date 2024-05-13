@@ -95,7 +95,7 @@ export default function AuthorsPatchPage() {
         <MultipleButton content={label} btnFnc={fetchPatchLink}/>
       </Container>
     </Container>
-    
+    <div className="space"></div>
     </>
   )
 }

@@ -10,7 +10,7 @@ export default function PopUpPostDetails({singleComment, sComment, setSComment})
 
     const fetchGetAuthor = async ()=>{
         try{
-            const response = await fetch(`http://localhost:3001/api/authors/${singleComment.author}`,
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${singleComment.author}`,
                 {
                 method:"GET",
                 headers:{"Authorization":"Bearer " + token}
@@ -33,7 +33,6 @@ export default function PopUpPostDetails({singleComment, sComment, setSComment})
 
     useEffect(()=>{
         if(sComment){
-            console.log("USE EFFECT!!!");
             fetchGetAuthor();
         }
     }, [singleComment]);
@@ -43,7 +42,7 @@ export default function PopUpPostDetails({singleComment, sComment, setSComment})
         <div className={`popUp-src-singleComment ${sComment ? "" : "d-none"}`}>
             <div className='topBar-singleComment justify-content-between'>
                 <p className='singleComment-id text-center mb-0 w-100'><b>ID: </b>{singleComment._id}</p>
-                <button type='button' onClick={()=>setSComment(false)} className='singleComment-cls mx-1'>X</button>
+                <button type='button' onClick={()=>{setSComment(false); setAuthor([])}} className='singleComment-cls mx-1'>X</button>
             </div>
             <div className='d-flex align-items-center'>
                 <img height={"40px"} src={author?.avatar} alt="authorImg" className='rounded-circle m-2' />

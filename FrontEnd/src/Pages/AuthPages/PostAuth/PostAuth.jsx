@@ -30,7 +30,7 @@ export default function Post() {
     setNewObj(newAuthor);
    
     try{
-      const response = await fetch("http://localhost:3001/api/authors",
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors`,
         {
         method:"POST", 
         body: JSON.stringify(newAuthor),
