@@ -26,7 +26,6 @@ export default function GetBlog() {
             setSpin(false);
             console.log("Fetch blog GET Riuscita.");
             let json = await response.json();
-            console.log("DataDiGetBlog = ",json);
             setData(json);
             }else{
             setSpin(false);
@@ -46,7 +45,6 @@ export default function GetBlog() {
             if(response.ok){
                 console.log("Fetch Riuscita.");
                 let json = [await response.json()];
-                console.log("fetchBtnId json= ", json);
                 setData(json);
             }else{
                 console.log("Fetch Fallita.");
@@ -60,7 +58,6 @@ export default function GetBlog() {
         fetchFncGet();
     }, []);
     
-    console.log("data= ", data);
     
   return (
     <Container fluid className='relative mb-5 pb-5'>

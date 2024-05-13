@@ -32,7 +32,6 @@ export default function PutBlog() {
       if (response.ok){
         console.log("Fetch Update Riuscita.");
         let json = await response.json();
-        console.log(json);
         setObjId(json._id);
         setCover(json.cover);
         setCategory(json.category);

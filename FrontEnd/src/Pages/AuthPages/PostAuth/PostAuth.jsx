@@ -26,7 +26,6 @@ export default function Post() {
       dateOfBirth: date,
     }
 
-    console.log(newAuthor);
     setNewObj(newAuthor);
    
     try{

@@ -52,7 +52,6 @@ export default function PostBlog() {
           headers:{"Content-type":"application/json;charset=UTF-8","Authorization":"Bearer " + token},
         }
       )
-      console.log(response);
       if(response.ok){
         setPopUp(!popUp);
         console.log("Fetch Blog POST Riuscita.")
@@ -76,7 +75,6 @@ export default function PostBlog() {
         setAvatar(json.avatar);
         setName(json.name);
         setSurname(json.surname);
-        console.log("GetAuthorPostBlog = ", json);
       }
     }catch (err){
       console.log(err);

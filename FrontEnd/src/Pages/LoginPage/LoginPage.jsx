@@ -16,9 +16,9 @@ export default function LoginPage() {
     const label = "Enter";
     
     const fetchLogin = async ()=>{
-        console.log(process.env.REACT_APP_SERVER_URL);
 
         let body = {email: email, password: password}
+
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/log/login`,
             {
                 method:"POST",
@@ -28,8 +28,6 @@ export default function LoginPage() {
         )
         if(response.ok){
             const userLogged = await response.json()
-            console.log("User Logged = ", userLogged);
-            console.log("SetUser = ", userLogged.user._id);
             localStorage.setItem("token",userLogged.token)
             localStorage.setItem("user",userLogged.user._id)
             setToken(userLogged.token);

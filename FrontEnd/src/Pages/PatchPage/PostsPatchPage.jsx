@@ -44,7 +44,6 @@ export default function PostsPatchPage() {
       try{
         
         let img = {cover: cover};
-        console.log("cover = ", cover);
   
         const response = await fetch(`//localhost:3001/blog/post/${id}/link/cover`,
           {

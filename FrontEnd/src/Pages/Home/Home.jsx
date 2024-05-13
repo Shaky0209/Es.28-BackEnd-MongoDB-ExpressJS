@@ -7,13 +7,12 @@ import './Home.css';
 
 export default function Home() {
   const {token, setToken}= useContext(StorageContext);
-  const {user, setUser}= useContext(UserContext);
+  const {setUser}= useContext(UserContext);
   let params = new URLSearchParams(document.location.search);
   let accessToken = params.get("accessToken");
 
   const fetchGetMe = async()=>{
     try{
-      console.log("URL ", process.env.REACT_APP_SERVER_URL);
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/log/me`, 
         {
           method:"GET",
@@ -29,14 +28,12 @@ export default function Home() {
         console.log("Fetch me KO!")
       }
     }catch(err){
-      console.log("Fetch me KO")
       console.log(err);
     }
   }
   
   if(accessToken){
     fetchGetMe();
-    console.log("accessToken === ", accessToken);
     localStorage.setItem("token", accessToken);
     setToken(accessToken);
   }

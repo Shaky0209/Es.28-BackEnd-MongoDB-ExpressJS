@@ -63,7 +63,6 @@ export default function Get() {
 
   useEffect(()=>{
     fetchFncGet();
-    console.log("data = ", data);
   }, []);
 
   return (

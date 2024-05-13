@@ -39,7 +39,6 @@ export default function AuthorDetails() {
                 setData(json);
                 fetchGetComments();
                 console.log("Fetch Get Author Riuscita!");
-                console.log("GetAuthor = ", json);
             }else{
                 console.log("Fetch Get Author fallita!");
             }
@@ -59,8 +58,6 @@ export default function AuthorDetails() {
             if(response.ok){
             let json = await response.json();
             setAllComments(json);
-            console.log("fetch comment id = ",id);
-            console.log("GetComments = ", json);
             }
         }catch(err){
           console.log(err);
@@ -70,7 +67,6 @@ export default function AuthorDetails() {
     const fetchAddComment = async ()=>{
 
         const body = {user: user, description: comment};
-        console.log("body=", body);
   
         try{
           const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/author/comments/post/${id}`,
@@ -81,7 +77,6 @@ export default function AuthorDetails() {
             })
   
             if(response.ok){
-                console.log("response Add Comment= ", response);
                 console.log("Fetch Add Comment OK!");
                 fetchGetComments();
             }else{
@@ -138,7 +133,6 @@ export default function AuthorDetails() {
                     <MultipleButton content={label} btnFnc={()=>fetchAddComment()} />
                     {(allComments.length > 0) &&<Container fluid className='p-2'>
                         {allComments.map((el)=>{
-                            
                             return  <AuthorComment
                                         key={el} 
                                         postId={el}

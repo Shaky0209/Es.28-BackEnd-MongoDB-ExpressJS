@@ -20,7 +20,6 @@ export default function PopUpPostDetails({objId, sComment, setSComment}) {
             if(response.ok){
                 console.log("Fetch Get Post Riuscita");
                 const json = await response.json();
-                console.log("POST = ", json);
                 setUserId(json.user)
                 setDescription(json.description)
                 
@@ -44,7 +43,6 @@ export default function PopUpPostDetails({objId, sComment, setSComment}) {
             if(response.ok){
                 console.log("Fetch Get Author Riuscita");
                 let json = await response.json();
-                console.log("setAuthor = ", json);
                 setAuthor(json);
             }else{
                 console.log("Fetch Get Author Fallita");

@@ -7,14 +7,10 @@ import './Post.css';
 
 export default function Post({author, readTime, category, title, cover, content, id, refresh }) {
 
-  console.log("Author mio = " , author);
-
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const {token} = useContext(StorageContext);
   const {user} = useContext(UserContext);
-
-
 
   const fetchFncDelete = async ()=>{
     try{

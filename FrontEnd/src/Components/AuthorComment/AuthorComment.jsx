@@ -10,7 +10,6 @@ export default function AuthorComment ({postId, refresh}) {
     
     const [post, setPost] = useState([]);
     const [value, setValue] = useState("");
-    // const [blogger, setBlogger] = useState("");
     const [editPost, setEditPost] = useState(false);
     const [win, setWin] = useState("");
     const [author, setAuthor] = useState({});
@@ -18,8 +17,6 @@ export default function AuthorComment ({postId, refresh}) {
     const label = "Edit Comment";
     const {token} = useContext(StorageContext);
     const {user} = useContext(UserContext);
-    console.log("postId = ", postId);
-    
 
     const fetchPost = async()=>{
         try{
@@ -30,7 +27,6 @@ export default function AuthorComment ({postId, refresh}) {
             });
             if(response.ok){
                 let json = await response.json();
-                console.log("post = ", json);
                 console.log("Fetch Autor Comment OK!");
                 setPost(json);
             }else{
@@ -43,7 +39,6 @@ export default function AuthorComment ({postId, refresh}) {
 
     const fetchAuthor = async ()=>{
         try{
-            console.log("post.user = ", post.user);
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${post.user}`,
             {
                 method:"GET",
@@ -51,7 +46,6 @@ export default function AuthorComment ({postId, refresh}) {
             })
             if(response.ok){
                 let json = await response.json();
-                console.log("FetchAuthor = ", json);
                 setAuthor(json);
                 console.log("Fetch Author Riuscita!");
             }else{
@@ -77,8 +71,6 @@ export default function AuthorComment ({postId, refresh}) {
             },
         )
         if(response.ok){
-            let json = await response.json();
-            console.log("Edit Comment json = ", json);
             console.log("Fetch Edit Comment Riuscita!");
             setWin(false);
             fetchPost();         
@@ -94,7 +86,6 @@ export default function AuthorComment ({postId, refresh}) {
 
     const fetchDeleteComment = async ()=>{
         try{
-            console.log("post.user=",post.user);
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/author/comments/authId/${id}/commentId/${postId}`,
             {
                 method:"DELETE",
@@ -113,7 +104,6 @@ export default function AuthorComment ({postId, refresh}) {
 
     useEffect(()=>{
         fetchPost();
-        console.log("PostId Fetch = ", postId);
     }, []);
 
     useEffect(()=>{
@@ -147,22 +137,21 @@ export default function AuthorComment ({postId, refresh}) {
                     </button>}
                     {(user===post.user) && <button className='post-btn' onClick={()=>fetchDeleteComment()}>Delete</button>}
                     <div>
-                        {console.log("user, author._id = ", user, author._id)}
-                            {user===author._id ?? <button 
-                                type='button'
-                                className='post-btn'
-                                onClick={()=>{
-                                    setValue();
-                                    setEditPost(true);
-                                    }
+                        {user===author._id ?? <button 
+                            type='button'
+                            className='post-btn'
+                            onClick={()=>{
+                                setValue();
+                                setEditPost(true);
                                 }
-                            >
-                                Edit
-                            </button>}
-                            {user===author._id ?? <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>}
-                        </div>
+                            }
+                        >
+                            Edit
+                        </button>}
+                        {user===author._id ?? <button className='post-btn' onClick={()=>{fetchDeleteComment(); refresh()}}>Delete</button>}
                     </div>
                 </div>
+            </div>
     </div>
 
     <div className={`postEdit ${win ? "" : "d-none"}`}>

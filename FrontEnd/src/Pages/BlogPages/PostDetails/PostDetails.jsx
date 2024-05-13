@@ -49,7 +49,6 @@ export default function PostDetails() {
     const fetchAddComment = async ()=>{
 
       const body = {author: user, description: comment};
-      console.log("body=",body);
 
       try{
         const response = await fetch(`//localhost:3001/blog/post/${id}/comments/`,
@@ -83,8 +82,6 @@ export default function PostDetails() {
 
 
     const fetchGetSingleComment = async ()=>{
-      console.log("objId = ", objId);
-      console.log("ID = ", id);
       try{
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog/post/${id}/comments/${objId}`,
           {
@@ -93,8 +90,8 @@ export default function PostDetails() {
           })
 
         if(response.ok){
+          console.log("Fetch Single Comment Riuscita!");
           let json = await response.json();
-          console.log("SingleComment = ", json);
           setSingleComment(json);
           setSComment(true);
         }else{

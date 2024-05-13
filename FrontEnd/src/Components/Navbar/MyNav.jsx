@@ -19,7 +19,6 @@ export default function MyNav() {
   const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
 
-  console.log("USER == ", user);
   const getUserImg = async ()=>{
     try{
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/authors/${user}`,
@@ -29,9 +28,7 @@ export default function MyNav() {
       });
       if(response.ok){
         let json = await response.json();
-        console.log("json avatar == ", json)
         const {avatar} = json;
-        console.log("avatar json == ", avatar);
         setUserImg(avatar);
       }else{
         setToken("");

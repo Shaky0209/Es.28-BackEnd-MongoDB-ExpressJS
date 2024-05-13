@@ -25,7 +25,6 @@ export default function PostComment({author, description, _id, refresh}) {
             })
             if(response.ok){
                 let json = await response.json();
-                console.log("blogger = ", json);
                 setBlogger(json);
                 console.log("Fetch Get Author OK!");
             }else{
@@ -66,9 +65,6 @@ export default function PostComment({author, description, _id, refresh}) {
 
       const fetchDeleteComment = async ()=>{
         try{
-            console.log("id=",id);
-            console.log("_id=",_id);
-
             const response = await fetch(`//localhost:3001/blog/post/${id}/comments/${_id}`,
             {
                 method:"DELETE",

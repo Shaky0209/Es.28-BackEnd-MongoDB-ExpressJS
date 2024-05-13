@@ -45,7 +45,6 @@ export default function TextControlsExample() {
                     alert("La tua registrazione è avvenuta con successo! Procedi con il login!");
                 }else{
                     console.log("Registrazione Fallita!");
-                    console.log("response = ", response);
                 }
 
             }catch(err){

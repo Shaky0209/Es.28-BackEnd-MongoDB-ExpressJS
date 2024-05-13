@@ -28,7 +28,6 @@ export default function Put() {
       if(response.ok){
         console.log("Fetch Riuscita!");
         const json = await response.json();
-        console.log(json);
         setObjId(json._id);
         setAvatar(json.avatar);
         setDate(json.dateOfBirth);
