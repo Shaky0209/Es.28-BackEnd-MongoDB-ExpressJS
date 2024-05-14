@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {Container, Row, Col, Alert, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { StorageContext } from '../../Context/StorageContextProvider';
@@ -8,8 +8,6 @@ import './Home.css';
 export default function Home() {
   const {token, setToken}= useContext(StorageContext);
   const {setUser}= useContext(UserContext);
-  let params = new URLSearchParams(document.location.search);
-  let accessToken = params.get("accessToken");
 
   const fetchGetMe = async()=>{
     try{
@@ -26,17 +24,32 @@ export default function Home() {
         localStorage.setItem("user", json._id);
       }else{
         console.log("Fetch me KO!")
+        
       }
     }catch(err){
       console.log(err);
+      console.error("err ", err)
     }
   }
   
-  if(accessToken){
-    fetchGetMe();
-    localStorage.setItem("token", accessToken);
-    setToken(accessToken);
-  }
+  useEffect(()=>{
+    let params = new URLSearchParams(document.location.search);
+    let accessToken = params.get("accessToken");
+    if(accessToken){
+      setToken(accessToken)
+    }else{
+
+    }
+  }, [])
+  
+
+  useEffect(()=>{
+    if(token){
+      localStorage.setItem("token", token);
+      fetchGetMe();
+    }
+
+  },[token]);
   
 
   return (

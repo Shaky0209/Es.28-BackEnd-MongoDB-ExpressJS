@@ -18,6 +18,8 @@ export default function MyNav() {
   const {token, setToken} = useContext(StorageContext);
   const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
+  const params = new URLSearchParams(document.location.search)
+  const accessToken = params.get("accessToken");
 
   const getUserImg = async ()=>{
     try{

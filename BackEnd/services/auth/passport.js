@@ -19,43 +19,41 @@ const googleStrategy = new GoogleStrategy(options, async(accessToken, refreshTok
     // Definizione di una callback che viene chiamata in fase di autenticazione
     // Desturtturiamo l'oggetto profiel e prendiamo i dati che ci servono
     const {email, given_name, family_name, sub, picture} = profile._json;
-
-    // Verifica se l'utente esiste già nel database
-    const user= await User.findOne({email});
-
-    if(user){
-        // Se l'utente esiste creiamoil token di accesso, utilizzando il servizio di GoogleStrategy
-        const accToken = await generateJWT({
-            _id: user._id
-        });
-
-        // Chiamiamo una callback passando null come errore e accessToken come secondo parametro
-        passportNext(null, {accToken})
-    }else{
-        // Se l'utente non esiste crea un nuovo utente
-        const newUser = new User({
-            name: "Your Name",
-            surname: "YourSurname",
-            email:email,
-            password:sub,
-            googleId:sub,
-            dateOfBirth: "01/01/1990",
-            avatar: "https://cdn5.vectorstock.com/i/1000x1000/43/94/default-avatar-photo-placeholder-icon-grey-vector-38594394.jpg",
-            posts:[],
-        });
-
-        // Salva l'utente nel database
-        await newUser.save();
-
-        // Genera token
-        const accToken = await generateJWT({
-            username: newUser.email
-        });
-
-        passportNext(null, {accToken})
-    }
-
     try{
+        // Verifica se l'utente esiste già nel database
+        const user= await User.findOne({email});
+
+        if(user){
+            // Se l'utente esiste creiamoil token di accesso, utilizzando il servizio di GoogleStrategy
+            const accToken = await generateJWT({
+                _id: user._id
+            });
+
+            // Chiamiamo una callback passando null come errore e accessToken come secondo parametro
+            passportNext(null, {accToken})
+        }else{
+            // Se l'utente non esiste crea un nuovo utente
+            const newUser = new User({
+                name: "Your Name",
+                surname: "YourSurname",
+                email:email,
+                password:sub,
+                googleId:sub,
+                dateOfBirth: "01/01/1990",
+                avatar: "https://cdn5.vectorstock.com/i/1000x1000/43/94/default-avatar-photo-placeholder-icon-grey-vector-38594394.jpg",
+                posts:[],
+            });
+
+            // Salva l'utente nel database
+            await newUser.save();
+
+            // Genera token
+            const accToken = await generateJWT({
+                _id: newUser._id
+            });
+
+            passportNext(null, {accToken})
+        }
     }catch (err){
         passportNext(err)
     }
